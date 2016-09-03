@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/spendmoney"
+        android:icon="@drawable/ic_file_upload_black_24dp"
+        android:title="Chi tiền" />
+    <item
+        android:id="@+id/recievemoney"
+        android:icon="@drawable/ic_file_download_black_24dp"
+        android:title="Thu tiền" />
+    <item
+        android:id="@+id/wallet"
+        android:icon="@drawable/ic_local_atm_black_24dp"
+        android:title="Tài khoản" />
+    <item
+        android:id="@+id/report"
+        android:icon="@drawable/ic_update_black_24dp"
+        android:title="Thống kê" />
+</group>
+    <item android:title="Thiết lập">
+        <menu>
+            <item
+                android:id="@+id/reset"
+                android:icon="@drawable/ic_cached_black_24dp"
+                android:title="Làm mới dữ liệu" />
+            <item
+                android:id="@+id/getdata"
+                android:icon="@drawable/ic_cloud_download_black_24dp"
+                android:title="Lấy dữ liệu từ máy chủ" />
+        </menu>
+    </item>
+<item android:title="Tiện ích">
+    <menu>
+        <item
+            android:id="@+id/rate"
+            android:icon="@drawable/ic_local_atm_black_24dp"
+            android:title="Xem tỷ giá" />
+        <item
+            android:id="@+id/vote"
+            android:icon="@drawable/ic_grade_black_24dp"
+            android:title="Đánh giá ứng dụng" />
+    </menu>
+</item>
+
+</menu>
