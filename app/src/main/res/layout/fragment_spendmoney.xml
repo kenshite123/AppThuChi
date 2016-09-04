@@ -120,7 +120,7 @@
                 android:textAlignment="viewEnd"
                 android:hint="Nhập số tiền"
                 android:textColorHint="@color/abc_secondary_text_material_light"
-                android:inputType="number" />
+ />
 
         </RelativeLayout>
 

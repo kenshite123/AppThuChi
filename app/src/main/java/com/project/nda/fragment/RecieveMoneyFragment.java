@@ -24,11 +24,13 @@ import android.widget.Toast;
 
 import com.project.nda.adapter.LoaiTaiKhoanAdapter;
 import com.project.nda.adapter.MucThuAdapter;
-import com.project.nda.function.LoaiTaiKhoanGetData;
-import com.project.nda.function.MucThuGetData;
-import com.project.nda.function.TaiKhoanGetData;
+import com.project.nda.GetData.LoaiTaiKhoanGetData;
+import com.project.nda.GetData.MucThuGetData;
+import com.project.nda.GetData.TaiKhoanGetData;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.model.MucThu;
+import com.project.nda.support.FormatMoney;
+import com.project.nda.support.MoneyText;
 import com.project.nda.thuchicanhan.R;
 
 import java.text.SimpleDateFormat;
@@ -50,6 +52,7 @@ public class RecieveMoneyFragment extends Fragment {
     LoaiTaiKhoanAdapter taiKhoanAdapter;
 
     TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
+    FormatMoney fmoney = new FormatMoney();
 
 
     CardView cvTaiKhoan, cvMucThu, cvNgayThu;
@@ -89,6 +92,7 @@ public class RecieveMoneyFragment extends Fragment {
     private void addControls() {
         edtNhapTienNhan = (EditText) view.findViewById(R.id.edtNhapTienNhan);
         edtNhapTienNhan.setRawInputType(Configuration.KEYBOARD_12KEY);
+        edtNhapTienNhan.addTextChangedListener(new MoneyText(edtNhapTienNhan));
         cvTaiKhoan = (CardView) view.findViewById(R.id.cvTaiKhoan);
         cvNgayThu = (CardView) view.findViewById(R.id.cvNgayThu);
         cvMucThu = (CardView) view.findViewById(R.id.cvMucThu);
@@ -194,8 +198,9 @@ public class RecieveMoneyFragment extends Fragment {
     }
 
     private void XuLyLuuThu() {
-        String soTien=edtNhapTienNhan.getText().toString();
-        if(soTien.equalsIgnoreCase("")) {
+
+        String moneyFomat = fmoney.FormatEditText(getContext(),edtNhapTienNhan);
+        if(moneyFomat.equalsIgnoreCase("")) {
             Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
             edtNhapTienNhan.requestFocus();
             return;
@@ -209,7 +214,7 @@ public class RecieveMoneyFragment extends Fragment {
             Toast.makeText(getContext(), "Chưa chọn mục thu", Toast.LENGTH_SHORT).show();
             return;
         }
-        money=Integer.parseInt(soTien);
+        money=Integer.parseInt(moneyFomat);
         if(money<=0){
             Toast.makeText(getContext(), "Số tiền phải lớn hơn 0", Toast.LENGTH_SHORT).show();
             edtNhapTienNhan.requestFocus();
@@ -241,15 +246,31 @@ public class RecieveMoneyFragment extends Fragment {
 
     private void LoadTaiKhoan()
     {
-        txtTienMat.setText(getDataTaiKhoan.getMoney(getContext(), 1, maND));
-        txtATM.setText(getDataTaiKhoan.getMoney(getContext(), 2, maND));
+        String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
+        String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
+        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
+        getATM = fmoney.FormatTexView(getContext(),getATM);
+        txtTienMat.setText(getTienMat);
+        txtATM.setText(getATM);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadTaiKhoan();
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser)
         {
-            LoadTaiKhoan();
+            try{
+                LoadTaiKhoan();
+
+            }catch (Exception e)
+            {
+
+            }
         }
     }
 }

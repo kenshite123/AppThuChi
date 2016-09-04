@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.nda.function.TaiKhoanGetData;
+import com.project.nda.GetData.TaiKhoanGetData;
+import com.project.nda.support.FormatMoney;
+import com.project.nda.support.MoneyText;
 import com.project.nda.thuchicanhan.R;
 
 public class AccountFragment extends Fragment {
@@ -30,7 +31,10 @@ public class AccountFragment extends Fragment {
     String maND;
     Intent intent;
 
-    TaiKhoanGetData taiKhoanGetData = new TaiKhoanGetData();
+    FormatMoney fmoney = new FormatMoney();
+
+
+    TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
 
     @Nullable
     @Override
@@ -53,16 +57,24 @@ public class AccountFragment extends Fragment {
         txtATM= (TextView) view.findViewById(R.id.txtATM);
         btnTienMat= (ImageButton) view.findViewById(R.id.btnTienMat);
         btnATM= (ImageButton) view.findViewById(R.id.btnATM);
+
+        //Lấy mã người dùng khi đã đăng nhập
         intent=getActivity().getIntent();
         maND=intent.getStringExtra("MAND");
         LoadTaiKhoan();
 
     }
+
     private void LoadTaiKhoan() {
-        txtTienMat.setText(taiKhoanGetData.getMoney(getContext(), 1, maND));
-        txtATM.setText(taiKhoanGetData.getMoney(getContext(), 2, maND));
+        String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
+        String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
+        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
+        getATM = fmoney.FormatTexView(getContext(),getATM);
+        txtTienMat.setText(getTienMat);
+        txtATM.setText(getATM);
     }
 
+    //Nhập hoặc cập nhật tiền trong các tài khoản
     private void insertOrUpdateMoney(final TextView txt, final int idLoaiTaiKhoan){
         final Dialog dialog=new Dialog(getActivity());
         dialog.setContentView(R.layout.insertmoney);
@@ -73,28 +85,27 @@ public class AccountFragment extends Fragment {
 
         final EditText edtMoney= (EditText) dialog.findViewById(R.id.edtMoney);
         edtMoney.setRawInputType(Configuration.KEYBOARD_12KEY);
-        edtMoney.setText(taiKhoanGetData.getMoney(getContext(), idLoaiTaiKhoan, maND));
+        edtMoney.addTextChangedListener(new MoneyText(edtMoney));
+        edtMoney.setText(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
 
         Button btnAgree= (Button) dialog.findViewById(R.id.btnAgree);
 
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String soTien = edtMoney.getText().toString();
-                if(soTien.equalsIgnoreCase("")){
+                String moneyFomat = fmoney.FormatEditText(getContext(),edtMoney);
+                if(moneyFomat.equalsIgnoreCase("")){
                     Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(Integer.parseInt(soTien)<0){
+                if(Integer.parseInt(moneyFomat)<0){
                     Toast.makeText(getContext(), "Số tiền nhập vào phải lớn hơn 0", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                Log.d("loi", soTien);
                 // kiểm tra tài khoản theo user nếu tài khoản chưa tồn tại thì insert
                 // nếu tài khoản tồn tại thì update
-                int result = taiKhoanGetData.UpdateAccount(getContext(),idLoaiTaiKhoan, maND, soTien);
+                int result = getDataTaiKhoan.UpdateAccount(getContext(),idLoaiTaiKhoan, maND, moneyFomat);
                 if(result == 1)
                 {
                     Toast.makeText(getActivity(), "Update thất bại", Toast.LENGTH_SHORT).show();

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.project.nda.function.UserGetData;
+import com.project.nda.GetData.UserGetData;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 

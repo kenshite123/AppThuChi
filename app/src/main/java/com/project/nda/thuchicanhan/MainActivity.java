@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.project.nda.adapter.GetDataFromAssetsAdapter;
-import com.project.nda.function.LoginGetData;
+import com.project.nda.GetData.LoginGetData;
 import com.project.nda.support.EmailValidator;
 
 public class MainActivity extends AppCompatActivity {

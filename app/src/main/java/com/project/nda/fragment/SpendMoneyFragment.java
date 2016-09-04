@@ -23,14 +23,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.nda.GetData.LoaiTaiKhoanGetData;
+import com.project.nda.GetData.MucChiGetData;
+import com.project.nda.GetData.TaiKhoanGetData;
 import com.project.nda.adapter.LoaiTaiKhoanAdapter;
 import com.project.nda.adapter.MucChiExpandListAdapter;
-import com.project.nda.function.LoaiTaiKhoanGetData;
-import com.project.nda.function.MucChiGetData;
-import com.project.nda.function.TaiKhoanGetData;
 import com.project.nda.model.LoaiChi;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.model.MucChi;
+import com.project.nda.support.FormatMoney;
 import com.project.nda.support.MoneyText;
 import com.project.nda.thuchicanhan.R;
 
@@ -59,7 +60,8 @@ public class SpendMoneyFragment extends Fragment {
     LoaiTaiKhoanGetData getDataLTK = new LoaiTaiKhoanGetData();
     TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
     MucChiGetData getDataMucChi = new MucChiGetData();
-    MoneyText moneyText;
+
+    FormatMoney fmoney = new FormatMoney();
 
     Intent intent;
     String maND;
@@ -69,8 +71,6 @@ public class SpendMoneyFragment extends Fragment {
     Date dateFinish;
 
     int idLoaiTaiKhoan, idTaiKhoan, idMucChi, money;
-    double moneyFormat;
-    String format;
 
     @Nullable
     @Override
@@ -201,24 +201,22 @@ public class SpendMoneyFragment extends Fragment {
             }
         });
         edtNhapTienChi.setRawInputType(Configuration.KEYBOARD_12KEY);
+        edtNhapTienChi.addTextChangedListener(new MoneyText(edtNhapTienChi));
         btnLuuChi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 xuLyLuuChi();
             }
         });
+
     }
 
-    private void xuLyLuuChiKhac() {
-        String soTien=edtNhapTienChi.getText().toString();
-        /*String[] arrSoTien=soTien.split("[.]");// VD nhập $50,000.00 chuỗi trả về tiền = $50,000
-        String tien=arrSoTien[0].replace("$","").replace(",", ""); // xong*/
-        Toast.makeText(getContext(), soTien, Toast.LENGTH_SHORT).show();
-    }
-
+    //Lưu thông tin Mục chi
     private void xuLyLuuChi() {
-        String soTien=edtNhapTienChi.getText().toString();
-        if(soTien.equalsIgnoreCase("")) {
+
+        String moneyFomat = fmoney.FormatEditText(getContext(),edtNhapTienChi);
+        if(moneyFomat.equalsIgnoreCase("")) {
             Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
             edtNhapTienChi.requestFocus();
             return;
@@ -232,7 +230,7 @@ public class SpendMoneyFragment extends Fragment {
 
         /*String[] arrSoTien=soTien.split("[.]");// VD nhập $50,000.00 chuỗi trả về tiền = $50,000
         String tien=arrSoTien[0].replace("$","").replace(",", ""); // xong*/
-        money=Integer.parseInt(soTien);
+        money=Integer.parseInt(moneyFomat);
         int moneyInDatabase=Integer.parseInt(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
 
         /*Toast.makeText(getContext(),
@@ -284,8 +282,13 @@ public class SpendMoneyFragment extends Fragment {
 
     private void LoadTaiKhoan()
     {
-        txtTienMat.setText(getDataTaiKhoan.getMoney(getContext(), 1, maND));
-        txtATM.setText(getDataTaiKhoan.getMoney(getContext(), 2, maND));
+        String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
+        String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
+        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
+        getATM = fmoney.FormatTexView(getContext(),getATM);
+
+        txtTienMat.setText(getTienMat);
+        txtATM.setText(getATM);
     }
 
 }

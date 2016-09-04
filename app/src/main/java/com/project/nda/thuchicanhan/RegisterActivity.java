@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.project.nda.function.RegisterData;
+import com.project.nda.GetData.RegisterData;
 import com.project.nda.support.EmailValidator;
 
 public class RegisterActivity extends AppCompatActivity {

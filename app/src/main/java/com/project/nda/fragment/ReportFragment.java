@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.project.nda.adapter.LoaiTaiKhoanAdapter;
-import com.project.nda.function.LoaiTaiKhoanGetData;
+import com.project.nda.GetData.LoaiTaiKhoanGetData;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.thuchicanhan.R;
 
@@ -51,6 +51,7 @@ public class ReportFragment extends Fragment {
     Calendar cal;
     Date dateFinish;
 
+    //Lấy ngày hiện tại
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
 

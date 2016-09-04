@@ -42,6 +42,11 @@ public class ManageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
+        addControls();
+        addEvents();
+
+    }
+    private void addControls() {
         intent=getIntent();
         maND=intent.getStringExtra("MAND");
 
@@ -52,7 +57,6 @@ public class ManageActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_action_person));
-
 
         // cài đặt mặc định nút navigation drawer toggle
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -65,7 +69,6 @@ public class ManageActivity extends AppCompatActivity
         for (int i = 0; i < 4; i++) {
             tabLayout.addTab(tabLayout.newTab().setText(pageTitle[i]));
         }
-
         //set gravity cho tab bar
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -78,9 +81,8 @@ public class ManageActivity extends AppCompatActivity
         final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        //thay đổi ViewPager page khi tab được chọn
-
-
+    }
+    private void addEvents() {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

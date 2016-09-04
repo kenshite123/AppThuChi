@@ -1,4 +1,4 @@
-package com.project.nda.function;
+package com.project.nda.GetData;
 
 import android.content.ContentValues;
 import android.content.Context;

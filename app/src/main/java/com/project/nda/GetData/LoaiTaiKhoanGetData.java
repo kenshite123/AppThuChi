@@ -1,4 +1,4 @@
-package com.project.nda.function;
+package com.project.nda.GetData;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -20,10 +20,11 @@ public class GetDataFromAssetsAdapter {
     public void coppyDatabaseFromAssetsToSystem(Context context) {
         File dbFile = context.getDatabasePath(DATABASE_NAME);
         if (!dbFile.exists()) {
-            try {
+            try
+            {
                 CopyDatabaseFromAssets(context);
-
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 Log.e("Loi", e.toString());
             }
         }
@@ -47,7 +48,8 @@ public class GetDataFromAssetsAdapter {
             os.flush();
             os.close();
             is.close();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             Log.e("Loi", e.toString());
         }
 
