@@ -103,5 +103,9 @@ public class TaiKhoanGetData {
         }
         return flag;
     }
+    public void ReSetDataTaiKhoan(Context context, String maND) {
+        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+        database.delete("TAIKHOAN","MAND=?", new String[]{maND});
+    }
 
 }

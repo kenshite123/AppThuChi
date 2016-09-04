@@ -244,12 +244,12 @@ public class RecieveMoneyFragment extends Fragment {
         txtTienMat.setText(getDataTaiKhoan.getMoney(getContext(), 1, maND));
         txtATM.setText(getDataTaiKhoan.getMoney(getContext(), 2, maND));
     }
-
     @Override
-    public void onResume() {
-        super.onResume();
-        LoadTaiKhoan();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            LoadTaiKhoan();
+        }
     }
-
-
 }

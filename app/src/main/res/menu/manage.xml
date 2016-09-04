@@ -12,11 +12,6 @@
     android:title="Đổi mật khẩu"
     app:showAsAction="never" />
     <item
-        android:id="@+id/link"
-        android:orderInCategory="100"
-        android:title="Liên kết tài khoản"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/out"
         android:orderInCategory="100"
         android:title="Đăng xuất"

@@ -1,5 +1,6 @@
 package com.project.nda.thuchicanhan;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        final ActionBar actionBar = getActionBar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addControls();
         addEvents();
@@ -107,5 +110,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

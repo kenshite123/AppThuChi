@@ -64,5 +64,9 @@ public class MucChiGetData {
         long kq=database.insert("Chi", null, insertNewValue);
         return kq;
     }
+    public void ReSetDataChi(Context context, String maND) {
+        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+        database.delete("Chi","MAND=?", new String[]{maND});
+    }
 
 }

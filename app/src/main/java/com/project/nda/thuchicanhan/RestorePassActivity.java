@@ -1,5 +1,6 @@
 package com.project.nda.thuchicanhan;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,9 @@ public class RestorePassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restore_pass);
+
+        final ActionBar actionBar = getActionBar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addControls();
         addEvents();
@@ -59,5 +63,10 @@ public class RestorePassActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

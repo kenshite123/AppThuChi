@@ -31,9 +31,9 @@ public class ManageActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private TabLayout tabLayout;
 
+    Intent intent;
+    String maND;
 
-
-    Intent intent = null;
     //Tạo mảng tiêu đề của các ViewPager
     private String[] pageTitle = {"Chi Tiền", "Thu Tiền", "Tài Khoản", "Thống Kê"};
 
@@ -42,6 +42,8 @@ public class ManageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
+        intent=getIntent();
+        maND=intent.getStringExtra("MAND");
 
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -75,27 +77,6 @@ public class ManageActivity extends AppCompatActivity
         //set viewpager adapter
         final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-        //xử lý qua lại Tab khi trượt ViewPager
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position)
-            {
-                if (position == 1)
-                {
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         //thay đổi ViewPager page khi tab được chọn
 
@@ -133,6 +114,7 @@ public class ManageActivity extends AppCompatActivity
         } else if (id == R.id.reset)
         {
             Intent intent = new Intent(ManageActivity.this, ResetDataActivity.class);
+            intent.putExtra("MAND", maND);
             startActivity(intent);
 
         } else if (id == R.id.getdata) {
@@ -203,6 +185,7 @@ public class ManageActivity extends AppCompatActivity
         }
         else if (id == R.id.changepass) {
             Intent intent = new Intent(ManageActivity.this, ChangePasswordActivity.class);
+            intent.putExtra("MAND", maND);
             startActivity(intent);
         }
         else if (id == R.id.out) {

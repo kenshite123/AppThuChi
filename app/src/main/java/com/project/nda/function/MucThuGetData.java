@@ -32,19 +32,23 @@ public class MucThuGetData {
 
     }
     public long insertThu(Context context, int idMucThu, int idTaiKhoan,
-                          String MaND, String NgayThu, int SoTienThu, String DienGiaiThu){
-        database=context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
+                          String MaND, String NgayThu, int SoTienThu, String DienGiaiThu) {
+        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
-        ContentValues insertNewValue=new ContentValues();
+        ContentValues insertNewValue = new ContentValues();
         insertNewValue.put("idMucThu", idMucThu);
         insertNewValue.put("idTaiKhoan", idTaiKhoan);
         insertNewValue.put("MaND", MaND);
         insertNewValue.put("NgayThu", NgayThu);
         insertNewValue.put("SoTienThu", SoTienThu);
         insertNewValue.put("DienGiaiThu", DienGiaiThu);
-        long kq=database.insert("Thu", null, insertNewValue);
+        long kq = database.insert("Thu", null, insertNewValue);
         return kq;
+    }
+    public void ReSetDataThu(Context context, String maND) {
+        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+        database.delete("THU","MAND=?", new String[]{maND});
     }
 
 }

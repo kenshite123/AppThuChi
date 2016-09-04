@@ -31,6 +31,9 @@ public class LoginGetData {
         while (cursorMaND.moveToNext()) {
             maND = cursorMaND.getString(0);
         }
+        cursorMaND.close();
         return maND;
+
     }
+
 }

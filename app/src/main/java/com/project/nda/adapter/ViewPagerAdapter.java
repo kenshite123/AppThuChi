@@ -29,17 +29,15 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             return new AccountFragment();
         }
-        else return  new ReportFragment();
-
+        else if (position == 3)
+        {
+            return new ReportFragment();
+        }
+        return null;
     }
 
     @Override
     public int getCount() {
         return 4;
-    }
-
-    @Override
-    public int getItemPosition(Object object) {
-        return super.getItemPosition(object);
     }
 }
