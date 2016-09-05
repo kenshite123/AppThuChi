@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,7 @@ import com.project.nda.adapter.MucChiExpandListAdapter;
 import com.project.nda.model.LoaiChi;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.model.MucChi;
+import com.project.nda.support.FormatDateTime;
 import com.project.nda.support.FormatMoney;
 import com.project.nda.support.MoneyText;
 import com.project.nda.thuchicanhan.R;
@@ -153,11 +153,12 @@ public class SpendMoneyFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         //Mỗi lần thay đổi ngày tháng năm thì cập nhật lại TextView Detail
-                        txtNgayChi.setText((dayOfMonth) + "/" + (monthOfYear + 1) + "/" + year);
+
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        dateFinish = cal.getTime();
+                        FormatDateTime formatDateTime = new FormatDateTime();
+                        formatDateTime.FormatDatePicker(getContext(), txtNgayChi, dayOfMonth, monthOfYear, year);
                     }
                 };
                 //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
@@ -216,7 +217,6 @@ public class SpendMoneyFragment extends Fragment {
     //Lưu thông tin Mục chi
     private void xuLyLuuChi() {
 
-        Log.d("hehe", idLoaiTaiKhoan+"");
         String moneyFomat = edtNhapTienChi.getText().toString().replace(",", "");
         if(moneyFomat.equalsIgnoreCase("")) {
             Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();

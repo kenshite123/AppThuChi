@@ -29,6 +29,7 @@ import com.project.nda.GetData.MucThuGetData;
 import com.project.nda.GetData.TaiKhoanGetData;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.model.MucThu;
+import com.project.nda.support.FormatDateTime;
 import com.project.nda.support.FormatMoney;
 import com.project.nda.support.MoneyText;
 import com.project.nda.thuchicanhan.R;
@@ -174,7 +175,8 @@ public class RecieveMoneyFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        dateFinish = cal.getTime();
+                        FormatDateTime formatDateTime = new FormatDateTime();
+                        formatDateTime.FormatDatePicker(getContext(), txtNgayThu, dayOfMonth, monthOfYear, year);
                     }
                 };
                 //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
