@@ -14,15 +14,27 @@ import com.project.nda.model.ThongKeThu;
 public class ThongKeGetData {
 
     SQLiteDatabase database = null;
+    Context context;
+    String date;
+    String MaND;
+    int idTaiKhoan;
+    public ThongKeGetData(Context context, String date, String MaND, int idTaiKhoan)
+    {
+      this.context = context;
+        this.date = date;
+        this.MaND = MaND;
+        this.idTaiKhoan = idTaiKhoan;
 
-    public ThongKeChi getDataThongKeChi(Context context, String value, String MaND, int idTaiKhoan) {
+    }
+
+    public ThongKeChi getDataThongKeChi() {
         ThongKeChi thongkeChi = new ThongKeChi();
 
         database = context.openOrCreateDatabase(
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
         String sql = "SELECT NGAYCHI, SUM(SOTIENCHI) AS TONGTIENCHI FROM CHI " +
-                "WHERE NGAYCHI='" + value + "' " +
+                "WHERE NGAYCHI='" + date + "' " +
                 "AND MAND=" + MaND +
                 " AND IDTAIKHOAN=" + idTaiKhoan +
                 " GROUP BY NGAYCHI";
@@ -35,14 +47,14 @@ public class ThongKeGetData {
         return thongkeChi;
 
     }
-    public ThongKeThu getDataThongKeThu(Context context, String value, String MaND, int idTaiKhoan) {
+    public ThongKeThu getDataThongKeThu() {
         ThongKeThu thongKeThu = new ThongKeThu();
 
         database = context.openOrCreateDatabase(
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
         String sql = "SELECT NGAYTHU, SUM(SOTIENTHU) AS TONGTIENTHU FROM THU " +
-                "WHERE NGAYTHU='" + value + "' " +
+                "WHERE NGAYTHU='" + date + "' " +
                 "AND MAND=" + MaND +
                 " AND IDTAIKHOAN=" + idTaiKhoan +
                 " GROUP BY NGAYTHU";

@@ -124,13 +124,13 @@ public class ReportFragment extends Fragment {
     private void LoadReport()
     {
         Log.d("hihi", maND+"và"+idTaiKhoan);
-        ThongKeGetData thongKeGetData = new ThongKeGetData();
+        ThongKeGetData thongKeGetData = new ThongKeGetData(getContext(), currentDateandTime, maND, idTaiKhoan);
 
         ThongKeChi thongKeChi = new ThongKeChi();
-        thongKeChi = thongKeGetData.getDataThongKeChi(getContext(),currentDateandTime,maND, idTaiKhoan );
+        thongKeChi = thongKeGetData.getDataThongKeChi();
 
         ThongKeThu thongKeThu = new ThongKeThu();
-        thongKeThu = thongKeGetData.getDataThongKeThu(getContext(),currentDateandTime, maND, idTaiKhoan);
+        thongKeThu = thongKeGetData.getDataThongKeThu();
 
         txtHomNay.setText(thongKeChi.getNgayThangNam());
         txtChiHomNay.setText(String.valueOf(thongKeChi.getTongTienChi()));
