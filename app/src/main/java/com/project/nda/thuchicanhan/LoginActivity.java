@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +17,7 @@ import com.project.nda.adapter.GetDataFromAssetsAdapter;
 import com.project.nda.GetData.LoginGetData;
 import com.project.nda.support.EmailValidator;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     EditText edtEmail;
@@ -35,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        dataAdapter.coppyDatabaseFromAssetsToSystem(MainActivity.this);
+        dataAdapter.coppyDatabaseFromAssetsToSystem(LoginActivity.this);
         addControls(); //Thao tác trên các controls
         addEvents(); //Xử lý các sự kiện của control
 
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         btnToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         btnToFoget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RestorePassActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RestorePassActivity.class);
                 startActivity(intent);
             }
         });
@@ -85,16 +88,16 @@ public class MainActivity extends AppCompatActivity {
        String email = edtEmail.getText().toString();
        String pass = edtPass.getText().toString();
        if (email.equalsIgnoreCase("") || pass.equalsIgnoreCase("")) {
-           Toast.makeText(MainActivity.this, "Chưa nhập đủ thông tin !", Toast.LENGTH_SHORT).show();
+           Toast.makeText(LoginActivity.this, "Chưa nhập đủ thông tin !", Toast.LENGTH_SHORT).show();
        } else if (!emailValidator.validate(email)) {
-           Toast.makeText(MainActivity.this, "Email không hợp lệ !", Toast.LENGTH_SHORT).show();
+           Toast.makeText(LoginActivity.this, "Email không hợp lệ !", Toast.LENGTH_SHORT).show();
        }
        int count = loginGetData.CheckInfoLogin(getApplicationContext(), email, pass);
        if (count == 0) { // ko tồn tại user này
-           Toast.makeText(MainActivity.this, "Sai thông tin đăng nhâp!", Toast.LENGTH_SHORT).show();
+           Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhâp!", Toast.LENGTH_SHORT).show();
        } else {
            String maND = loginGetData.GetMaND(getApplication(),email, pass);
-           Intent intent = new Intent(MainActivity.this, ManageActivity.class);
+           Intent intent = new Intent(LoginActivity.this, ManageActivity.class);
            intent.putExtra("MAND", maND);
            startActivity(intent);
        }
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         boolean bchk=pre.getBoolean("checked", false);
         // nếu true thì nhảy vào màn hình khác
         if(bchk){
-            Intent intent=new Intent(MainActivity.this, ManageActivity.class);
+            Intent intent=new Intent(LoginActivity.this, ManageActivity.class);
             startActivity(intent);
         }
 

@@ -6,17 +6,18 @@ import android.widget.EditText;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by ndact on 31/08/2016.
  */
 public class MoneyText implements TextWatcher{
 
-    EditText edtNhapTienChi;
+    EditText editText;
 
     public MoneyText(EditText edtNhapTienChi)
     {
-        this.edtNhapTienChi = edtNhapTienChi;
+        this.editText = edtNhapTienChi;
     }
 
     @Override
@@ -31,34 +32,28 @@ public class MoneyText implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
+        editText.removeTextChangedListener(this);
 
-        if (s.length() == 0){
-            return;
-        }
-
-        //gioi han 1 ty
-        String value = s.toString().replaceAll(",", "");
-        if (value.length() > 10) {
-            value = value.substring(0, 10);
-        }
-        String formattedPrice = getFormatedCurrency(value);
-        if (!(formattedPrice.equalsIgnoreCase(s.toString()))) {
-            /***
-             * The below given line will call the function recursively
-             * and will ends at this if block condition
-             ***/
-            edtNhapTienChi.setText(formattedPrice);
-            edtNhapTienChi.setSelection(edtNhapTienChi.length());
-        }
-    }
-
-    public String getFormatedCurrency(String value) {
         try {
-            NumberFormat formatter = new DecimalFormat("#,###,###,###");
-            return formatter.format(Double.parseDouble(value));
-        } catch (Exception e) {
-            e.printStackTrace();
+            String originalString = s.toString();
+
+            Long longval;
+            if (originalString.contains(",")) {
+                originalString = originalString.replaceAll(",", "");
+            }
+            longval = Long.parseLong(originalString);
+
+            DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+            formatter.applyPattern("#,###,###,###");
+            String formattedString = formatter.format(longval);
+
+            //setting text after format to EditText
+            editText.setText(formattedString);
+            editText.setSelection(editText.getText().length());
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace();
         }
-        return "";
+
+        editText.addTextChangedListener(this);
     }
 }

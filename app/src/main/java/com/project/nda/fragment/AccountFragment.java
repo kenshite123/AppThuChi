@@ -93,7 +93,7 @@ public class AccountFragment extends Fragment {
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String moneyFomat = fmoney.FormatEditText(getContext(),edtMoney);
+                String moneyFomat = edtMoney.getText().toString().replace(",", "");
                 if(moneyFomat.equalsIgnoreCase("")){
                     Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
                     return;
@@ -148,5 +148,19 @@ public class AccountFragment extends Fragment {
                 insertOrUpdateMoney(txtATM, 2);
             }
         });
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            try{
+                LoadTaiKhoan();
+
+            }catch (Exception e)
+            {
+
+            }
+        }
     }
 }

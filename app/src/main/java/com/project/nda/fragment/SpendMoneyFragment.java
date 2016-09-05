@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,7 +216,8 @@ public class SpendMoneyFragment extends Fragment {
     //Lưu thông tin Mục chi
     private void xuLyLuuChi() {
 
-        String moneyFomat = fmoney.FormatEditText(getContext(),edtNhapTienChi);
+        Log.d("hehe", idLoaiTaiKhoan+"");
+        String moneyFomat = edtNhapTienChi.getText().toString().replace(",", "");
         if(moneyFomat.equalsIgnoreCase("")) {
             Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
             edtNhapTienChi.requestFocus();
@@ -289,6 +291,20 @@ public class SpendMoneyFragment extends Fragment {
 
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            try{
+                LoadTaiKhoan();
+
+            }catch (Exception e)
+            {
+
+            }
+        }
     }
 
 }

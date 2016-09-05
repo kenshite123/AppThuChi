@@ -199,7 +199,7 @@ public class RecieveMoneyFragment extends Fragment {
 
     private void XuLyLuuThu() {
 
-        String moneyFomat = fmoney.FormatEditText(getContext(),edtNhapTienNhan);
+        String moneyFomat = edtNhapTienNhan.getText().toString().replace(",", "");
         if(moneyFomat.equalsIgnoreCase("")) {
             Toast.makeText(getContext(), "Chưa nhập số tiền", Toast.LENGTH_SHORT).show();
             edtNhapTienNhan.requestFocus();
