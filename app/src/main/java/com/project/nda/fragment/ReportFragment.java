@@ -21,6 +21,8 @@ import com.project.nda.adapter.LoaiTaiKhoanAdapter;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.model.ThongKeChi;
 import com.project.nda.model.ThongKeThu;
+import com.project.nda.support.DateProcess;
+import com.project.nda.support.FormatMoney;
 import com.project.nda.thuchicanhan.R;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +58,11 @@ public class ReportFragment extends Fragment {
     //Lấy ngày hiện tại
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
+
+    String startDate;
+    String endDate;
+    String startDateY;
+    String endDateY;
 
     @Nullable
     @Override
@@ -122,17 +129,69 @@ public class ReportFragment extends Fragment {
     }
     private void LoadReport()
     {
-        ThongKeGetData thongKeGetData = new ThongKeGetData(getContext(), currentDateandTime, maND, idTaiKhoan);
 
-        ThongKeChi thongKeChi = new ThongKeChi();
-        thongKeChi = thongKeGetData.getDataThongKeChi();
+        FormatMoney formatMoney = new FormatMoney();
+        //Show Thu Chi ngày hiện tại
+        ThongKeGetData getDataHomNay = new ThongKeGetData(getContext(), currentDateandTime, currentDateandTime, maND, idTaiKhoan);
 
-        ThongKeThu thongKeThu = new ThongKeThu();
-        thongKeThu = thongKeGetData.getDataThongKeThu();
+        ThongKeChi chiHomNay = new ThongKeChi();
+        chiHomNay = getDataHomNay.getDataThongKeChi();
 
-        txtHomNay.setText(thongKeChi.getNgayThangNam());
-        txtChiHomNay.setText(String.valueOf(thongKeChi.getTongTienChi()));
-        txtThuHomNay.setText(String.valueOf(thongKeThu.getTongTienThu()));
+        ThongKeThu thuHomNay = new ThongKeThu();
+        thuHomNay = getDataHomNay.getDataThongKeThu();
+
+        txtHomNay.setText(thuHomNay.getNgayThangNam());
+        txtChiHomNay.setText(formatMoney.FormatTexView(getContext(),String.valueOf(chiHomNay.getTongTienChi())));
+        txtThuHomNay.setText(formatMoney.FormatTexView(getContext(),String.valueOf(thuHomNay.getTongTienThu())));
+
+        getCurrentMonth();
+
+        //Show thu chi theo thang vd: 09-2016
+        ThongKeGetData getDataThang = new ThongKeGetData(getContext(), startDate, endDate, maND, idTaiKhoan);
+
+        ThongKeChi chiThang = new ThongKeChi();
+        chiThang = getDataThang.getDataThongKeChi();
+
+        ThongKeThu thuThang = new ThongKeThu();
+        thuThang = getDataThang.getDataThongKeThu();
+
+        txtThang.setText(chiThang.getNgayThangNam().substring(3, 10 ));
+        txtChiThang.setText(formatMoney.FormatTexView(getContext(),String.valueOf(chiThang.getTongTienChi())));
+        txtThuThang.setText(formatMoney.FormatTexView(getContext(),String.valueOf(thuThang.getTongTienThu())));
+
+        getCurrentYear();
+        //Show Thu chi theo năm
+        ThongKeGetData getDataNam = new ThongKeGetData(getContext(), startDateY, endDateY, maND, idTaiKhoan);
+
+        ThongKeChi chiNam = new ThongKeChi();
+        chiNam = getDataThang.getDataThongKeChi();
+
+        ThongKeThu thuNam = new ThongKeThu();
+        thuNam = getDataNam.getDataThongKeThu();
+
+        txtNam.setText(chiNam.getNgayThangNam().substring(6, 10 ));
+        txtChiNam.setText(formatMoney.FormatTexView(getContext(), String.valueOf(chiNam.getTongTienChi())));
+        txtThuNam.setText(formatMoney.FormatTexView(getContext(), String.valueOf(thuNam.getTongTienThu())));
+
     }
 
+    public void getCurrentMonth() {
+        int month=Integer.parseInt(currentDateandTime.substring(3, 5)); // 9
+        int year=Integer.parseInt(currentDateandTime.substring(6, 10));  // 2016
+        if(month<10)
+        {
+            startDate =  "01" + "/0" + month + "/" + year;
+            endDate =DateProcess.getLastDayOfMonth(month, year) + "/0" + month + "/" + year;
+        }else
+        {
+            startDate = "01" + "/" + month + "/" + year;
+            endDate =DateProcess.getLastDayOfMonth(month, year)  + "/" + month + "/" + year;
+        }
+    }
+    public void getCurrentYear() {
+        int month=Integer.parseInt(currentDateandTime.substring(3, 5));
+        int year=Integer.parseInt(currentDateandTime.substring(6, 10));
+            startDateY =  "01" + "/01/" + year;
+            endDateY =DateProcess.getLastDayOfMonth(month, year) + "/12/" + year;
+    }
 }

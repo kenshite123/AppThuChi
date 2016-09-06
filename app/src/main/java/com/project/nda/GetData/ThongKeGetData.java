@@ -15,13 +15,15 @@ public class ThongKeGetData {
 
     SQLiteDatabase database = null;
     Context context;
-    String date;
+    String startDate;
+    String endDate;
     String MaND;
     int idTaiKhoan;
-    public ThongKeGetData(Context context, String date, String MaND, int idTaiKhoan)
+    public ThongKeGetData(Context context, String startDate, String endDate, String MaND, int idTaiKhoan)
     {
       this.context = context;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.MaND = MaND;
         this.idTaiKhoan = idTaiKhoan;
 
@@ -34,10 +36,9 @@ public class ThongKeGetData {
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
         String sql = "SELECT NGAYCHI, SUM(SOTIENCHI) AS TONGTIENCHI FROM CHI " +
-                "WHERE NGAYCHI='" + date + "' " +
+                "WHERE NGAYCHI BETWEEN '" + startDate + "' AND '" + endDate+  "' " +
                 "AND MAND=" + MaND +
-                " AND IDTAIKHOAN=" + idTaiKhoan +
-                " GROUP BY NGAYCHI";
+                " AND IDTAIKHOAN=" + idTaiKhoan ;
         Cursor cursor = database.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             thongkeChi.setNgayThangNam(cursor.getString(0));
@@ -54,10 +55,9 @@ public class ThongKeGetData {
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
         String sql = "SELECT NGAYTHU, SUM(SOTIENTHU) AS TONGTIENTHU FROM THU " +
-                "WHERE NGAYTHU='" + date + "' " +
+                "WHERE NGAYTHU BETWEEN '" + startDate + "' AND '" + endDate+  "' " +
                 "AND MAND=" + MaND +
-                " AND IDTAIKHOAN=" + idTaiKhoan +
-                " GROUP BY NGAYTHU";
+                " AND IDTAIKHOAN=" + idTaiKhoan;
         Cursor cursor = database.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             thongKeThu.setNgayThangNam(cursor.getString(0));
