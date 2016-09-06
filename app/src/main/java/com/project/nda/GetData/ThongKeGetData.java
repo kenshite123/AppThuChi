@@ -3,6 +3,7 @@ package com.project.nda.GetData;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.project.nda.adapter.GetDataFromAssetsAdapter;
 
@@ -38,6 +39,7 @@ public class ThongKeGetData {
                 " AND IDTAIKHOAN=" + idTaiKhoan ;
         Cursor cursor = database.rawQuery(sql, null);
         String thongkeChi = "";
+        Log.d("abc", sql+"");
         while (cursor.moveToNext())
         {
             thongkeChi = cursor.getString(0);

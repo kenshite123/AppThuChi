@@ -11,8 +11,7 @@
         <activity
             android:name=".LaunchActivity"
             android:label="Quản Lý Tài Chính"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +20,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Đăng nhập"/>
+            android:label="Đăng nhập" />
         <activity
             android:name=".RegisterActivity"
             android:label="Đăng ký" />
@@ -40,7 +39,9 @@
         <activity android:name=".SyncActivity" />
         <activity
             android:name=".ChangePasswordActivity"
-            android:label="Đổi mật khẩu"></activity>
+            android:label="Đổi mật khẩu" />
+        <activity android:name=".ShowDetailReportActivity"
+            android:label="Báo cáo chi tiết"></activity>
     </application>
 
 </manifest>

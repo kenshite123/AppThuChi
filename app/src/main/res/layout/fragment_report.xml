@@ -71,7 +71,7 @@
         card_view:cardUseCompatPadding="true"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:id="@+id/cvHomNay">
+        android:id="@+id/cvXemTheoNgay">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -111,13 +111,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="Hôm nay  " />
+                                android:text="Ngày    " />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:id="@+id/txtHomNay" />
+                                android:id="@+id/txtHomNay"
+                                android:drawableRight="@drawable/ic_action_expand"/>
 
                         </LinearLayout>
 
@@ -172,7 +173,7 @@
         card_view:cardUseCompatPadding="true"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:id="@+id/cvThang">
+        android:id="@+id/cvXemTheoThang">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -273,7 +274,7 @@
         card_view:cardUseCompatPadding="true"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:id="@+id/cvNam">
+        android:id="@+id/cvXemTheoNam">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -375,7 +376,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_style"
         android:textColor="@color/white"
-        android:layout_marginTop="10dp"/>
+        android:layout_margin="10dp"/>
 
 </LinearLayout>
 

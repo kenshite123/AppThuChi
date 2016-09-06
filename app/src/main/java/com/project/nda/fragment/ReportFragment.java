@@ -1,5 +1,6 @@
 package com.project.nda.fragment;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,8 +23,10 @@ import com.project.nda.GetData.ThongKeGetData;
 import com.project.nda.adapter.LoaiTaiKhoanAdapter;
 import com.project.nda.model.LoaiTaiKhoan;
 import com.project.nda.support.DateProcess;
+import com.project.nda.support.FormatDateTime;
 import com.project.nda.support.FormatMoney;
 import com.project.nda.thuchicanhan.R;
+import com.project.nda.thuchicanhan.ShowDetailReportActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class ReportFragment extends Fragment {
     private Dialog dialogShowTuyChonXem;
     private Dialog dialogShowDate;
 
-    CardView cvShowTaiKhoan, cvShowTuyChonXem;
+    CardView cvShowTaiKhoan, cvXemTheoNgay, cvXemTheoThang, cvXemTheoNam;
     TextView txtTenTaiKhoanBaoCao, txtHomNay, txtThang, txtNam;
     TextView txtThuHomNay, txtThuThang, txtThuNam, txtChiHomNay, txtChiThang, txtChiNam ;
 
@@ -52,12 +56,13 @@ public class ReportFragment extends Fragment {
     Intent intent;
     String maND;
 
-    int idTaiKhoan;
+    int idTaiKhoan = 1;
 
     //Lấy ngày hiện tại
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
 
+    String selectDate;
     String startDate;
     String endDate;
     String startDateY;
@@ -84,8 +89,15 @@ public class ReportFragment extends Fragment {
 
     private void addControls() {
         cvShowTaiKhoan = (CardView) view.findViewById(R.id.cvShowTaiKhoan);
+        cvXemTheoNgay = (CardView) view.findViewById(R.id.cvXemTheoNgay);
+        cvXemTheoThang = (CardView) view.findViewById(R.id.cvXemTheoThang);
+        cvXemTheoNam = (CardView) view.findViewById(R.id.cvXemTheoNam);
+
+
         txtTenTaiKhoanBaoCao = (TextView) view.findViewById(R.id.txtTenTaiKhoanBaoCao);
+        txtTenTaiKhoanBaoCao.setText("Ví");
         txtHomNay = (TextView) view.findViewById(R.id.txtHomNay);
+        txtHomNay.setText(currentDateandTime);
         txtThuHomNay = (TextView) view.findViewById(R.id.txtThuHomnay);
         txtChiHomNay = (TextView) view.findViewById(R.id.txtChiHomnay);
         txtThang = (TextView) view.findViewById(R.id.txtThang);
@@ -125,17 +137,58 @@ public class ReportFragment extends Fragment {
                 });
             }
         });
+        txtHomNay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        //Mỗi lần thay đổi ngày tháng năm thì cập nhật lại TextView Detail
+                        //Lưu vết lại biến ngày hoàn thành
+                        cal = Calendar.getInstance();
+                        cal.set(year, monthOfYear, dayOfMonth);
+                        FormatDateTime formatDateTime = new FormatDateTime();
+                        formatDateTime.FormatDatePicker(getContext(), txtHomNay, dayOfMonth, monthOfYear, year);
+                        LoadReport();
+                    }
+                };
+                //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
+                //sẽ giống với trên TextView khi mở nó lên
+                String s = txtHomNay.getText() + "";
+                String strArrtmp[] = s.split("/");
+                int ngay = Integer.parseInt(strArrtmp[0]);
+                int thang = Integer.parseInt(strArrtmp[1]) - 1;
+                int nam = Integer.parseInt(strArrtmp[2]);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callback, nam, thang, ngay);
+                datePickerDialog.setTitle("Chọn ngày hoàn thành");
+                datePickerDialog.show();
+
+            }
+        });
+        cvXemTheoNgay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getActivity(), ShowDetailReportActivity.class);
+                startActivity(intent);
+            }
+        });
+        LoadReport();
+
     }
     private void LoadReport()
     {
 
         FormatMoney formatMoney = new FormatMoney();
         //Show Thu Chi ngày hiện tại
-        ThongKeGetData getDataHomNay = new ThongKeGetData(getContext(), currentDateandTime, currentDateandTime, maND, idTaiKhoan);
+        selectDate = txtHomNay.getText().toString();
+        ThongKeGetData getDataHomNay = new ThongKeGetData(getContext(), selectDate, selectDate, maND, idTaiKhoan);
+
         String chiHomNay = getDataHomNay.getDataThongKeChi();
         String thuHomNay = getDataHomNay.getDataThongKeThu();
 
-        txtHomNay.setText(currentDateandTime);
+        txtHomNay.setText(selectDate);
         txtChiHomNay.setText(formatMoney.FormatTexView(getContext(), chiHomNay));
         txtThuHomNay.setText(formatMoney.FormatTexView(getContext(), thuHomNay));
 
