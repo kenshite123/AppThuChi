@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.project.nda.adapter.GetDataFromAssetsAdapter;
-import com.project.nda.model.ThongKeChi;
-import com.project.nda.model.ThongKeThu;
 
 /**
  * Created by DELL on 9/5/2016.
@@ -29,42 +27,41 @@ public class ThongKeGetData {
 
     }
 
-    public ThongKeChi getDataThongKeChi() {
-        ThongKeChi thongkeChi = new ThongKeChi();
+    public String getDataThongKeChi() {
 
         database = context.openOrCreateDatabase(
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
-        String sql = "SELECT NGAYCHI, SUM(SOTIENCHI) AS TONGTIENCHI FROM CHI " +
-                "WHERE NGAYCHI BETWEEN '" + startDate + "' AND '" + endDate+  "' " +
+        String sql = "SELECT SUM(SOTIENCHI) AS TONGTIENCHI FROM CHI " +
+                "WHERE NGAYCHI >= '" + startDate + "' AND NGAYCHI <= '" + endDate+  "' " +
                 "AND MAND=" + MaND +
                 " AND IDTAIKHOAN=" + idTaiKhoan ;
         Cursor cursor = database.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-            thongkeChi.setNgayThangNam(cursor.getString(0));
-            thongkeChi.setTongTienChi(Integer.parseInt(cursor.getString(1)));
+        String thongkeChi = "";
+        while (cursor.moveToNext())
+        {
+            thongkeChi = cursor.getString(0);
         }
         cursor.close();
         return thongkeChi;
-
     }
-    public ThongKeThu getDataThongKeThu() {
-        ThongKeThu thongKeThu = new ThongKeThu();
+    public String getDataThongKeThu() {
 
         database = context.openOrCreateDatabase(
                 GetDataFromAssetsAdapter.DATABASE_NAME,
                 context.MODE_PRIVATE, null);
-        String sql = "SELECT NGAYTHU, SUM(SOTIENTHU) AS TONGTIENTHU FROM THU " +
-                "WHERE NGAYTHU BETWEEN '" + startDate + "' AND '" + endDate+  "' " +
+        String sql = "SELECT SUM(SOTIENTHU) AS TONGTIENTHU FROM THU " +
+                "WHERE NGAYTHU >= '" + startDate + "' AND NGAYTHU <= '" + endDate+  "' " +
                 "AND MAND=" + MaND +
                 " AND IDTAIKHOAN=" + idTaiKhoan;
         Cursor cursor = database.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
-            thongKeThu.setNgayThangNam(cursor.getString(0));
-            thongKeThu.setTongTienThu(Integer.parseInt(cursor.getString(1)));
+        String thongkeThu = "";
+        while (cursor.moveToNext())
+        {
+            thongkeThu = cursor.getString(0);
         }
         cursor.close();
-        return thongKeThu;
+        return thongkeThu;
 
     }
 }

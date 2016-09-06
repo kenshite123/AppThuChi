@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,6 @@ import com.project.nda.GetData.LoaiTaiKhoanGetData;
 import com.project.nda.GetData.ThongKeGetData;
 import com.project.nda.adapter.LoaiTaiKhoanAdapter;
 import com.project.nda.model.LoaiTaiKhoan;
-import com.project.nda.model.ThongKeChi;
-import com.project.nda.model.ThongKeThu;
 import com.project.nda.support.DateProcess;
 import com.project.nda.support.FormatMoney;
 import com.project.nda.thuchicanhan.R;
@@ -133,45 +132,32 @@ public class ReportFragment extends Fragment {
         FormatMoney formatMoney = new FormatMoney();
         //Show Thu Chi ngày hiện tại
         ThongKeGetData getDataHomNay = new ThongKeGetData(getContext(), currentDateandTime, currentDateandTime, maND, idTaiKhoan);
+        String chiHomNay = getDataHomNay.getDataThongKeChi();
+        String thuHomNay = getDataHomNay.getDataThongKeThu();
 
-        ThongKeChi chiHomNay = new ThongKeChi();
-        chiHomNay = getDataHomNay.getDataThongKeChi();
-
-        ThongKeThu thuHomNay = new ThongKeThu();
-        thuHomNay = getDataHomNay.getDataThongKeThu();
-
-        txtHomNay.setText(thuHomNay.getNgayThangNam());
-        txtChiHomNay.setText(formatMoney.FormatTexView(getContext(),String.valueOf(chiHomNay.getTongTienChi())));
-        txtThuHomNay.setText(formatMoney.FormatTexView(getContext(),String.valueOf(thuHomNay.getTongTienThu())));
-
-        getCurrentMonth();
+        txtHomNay.setText(currentDateandTime);
+        txtChiHomNay.setText(formatMoney.FormatTexView(getContext(), chiHomNay));
+        txtThuHomNay.setText(formatMoney.FormatTexView(getContext(), thuHomNay));
 
         //Show thu chi theo thang vd: 09-2016
+        getCurrentMonth();
         ThongKeGetData getDataThang = new ThongKeGetData(getContext(), startDate, endDate, maND, idTaiKhoan);
+        String chiThang = getDataThang.getDataThongKeChi();
+        String thuThang = getDataThang.getDataThongKeThu();
 
-        ThongKeChi chiThang = new ThongKeChi();
-        chiThang = getDataThang.getDataThongKeChi();
+        txtThang.setText(currentDateandTime.substring(3, 10 ));
+        txtChiThang.setText(formatMoney.FormatTexView(getContext(), chiThang));
+        txtThuThang.setText(formatMoney.FormatTexView(getContext(), thuThang));
 
-        ThongKeThu thuThang = new ThongKeThu();
-        thuThang = getDataThang.getDataThongKeThu();
-
-        txtThang.setText(chiThang.getNgayThangNam().substring(3, 10 ));
-        txtChiThang.setText(formatMoney.FormatTexView(getContext(),String.valueOf(chiThang.getTongTienChi())));
-        txtThuThang.setText(formatMoney.FormatTexView(getContext(),String.valueOf(thuThang.getTongTienThu())));
-
-        getCurrentYear();
         //Show Thu chi theo năm
+        getCurrentYear();
         ThongKeGetData getDataNam = new ThongKeGetData(getContext(), startDateY, endDateY, maND, idTaiKhoan);
+        String chiNam = getDataThang.getDataThongKeChi();
+        String thuNam = getDataNam.getDataThongKeThu();
 
-        ThongKeChi chiNam = new ThongKeChi();
-        chiNam = getDataThang.getDataThongKeChi();
-
-        ThongKeThu thuNam = new ThongKeThu();
-        thuNam = getDataNam.getDataThongKeThu();
-
-        txtNam.setText(chiNam.getNgayThangNam().substring(6, 10 ));
-        txtChiNam.setText(formatMoney.FormatTexView(getContext(), String.valueOf(chiNam.getTongTienChi())));
-        txtThuNam.setText(formatMoney.FormatTexView(getContext(), String.valueOf(thuNam.getTongTienThu())));
+        txtNam.setText(currentDateandTime.substring(6, 10 ));
+        txtChiNam.setText(formatMoney.FormatTexView(getContext(), chiNam));
+        txtThuNam.setText(formatMoney.FormatTexView(getContext(), thuNam));
 
     }
 
@@ -187,11 +173,14 @@ public class ReportFragment extends Fragment {
             startDate = "01" + "/" + month + "/" + year;
             endDate =DateProcess.getLastDayOfMonth(month, year)  + "/" + month + "/" + year;
         }
+        Log.d("nam", startDate +" "+ endDate);
+
     }
     public void getCurrentYear() {
         int month=Integer.parseInt(currentDateandTime.substring(3, 5));
         int year=Integer.parseInt(currentDateandTime.substring(6, 10));
             startDateY =  "01" + "/01/" + year;
             endDateY =DateProcess.getLastDayOfMonth(month, year) + "/12/" + year;
+        Log.d("nam", startDateY +" "+ endDateY);
     }
 }
