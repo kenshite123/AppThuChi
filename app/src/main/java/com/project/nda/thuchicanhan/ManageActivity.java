@@ -86,6 +86,22 @@ public class ManageActivity extends AppCompatActivity
 
     }
     private void addEvents() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -109,12 +125,17 @@ public class ManageActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.spendmoney) {
+            tabLayout.getTabAt(0).select();
+//            tabLayout.getTabAt(0).select();
             viewPager.setCurrentItem(0);
         } else if (id == R.id.recievemoney) {
+            tabLayout.getTabAt(1).select();
             viewPager.setCurrentItem(1);
         } else if (id == R.id.wallet) {
+            tabLayout.getTabAt(2).select();
             viewPager.setCurrentItem(2);
         } else if (id == R.id.report) {
+            tabLayout.getTabAt(3).select();
             viewPager.setCurrentItem(3);
         } else if (id == R.id.reset)
         {

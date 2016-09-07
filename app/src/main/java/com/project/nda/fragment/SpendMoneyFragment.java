@@ -267,9 +267,9 @@ public class SpendMoneyFragment extends Fragment {
                 getContext(), idMucChi, idTaiKhoan, maND,
                 txtNgayChi.getText().toString(), money,
                 edtGhiChuChi.getText().toString())==-1){
-            Toast.makeText(getContext(), "Insert thất bại", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Lưu thất bại", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getContext(), "Insert thành công", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
             // lấy ra money trong database theo 2 tham số idLoaiTaiKhoan & maND
             // sau khi thêm thì trừ ra => update lại
             int moneyAfterInsert= moneyInDatabase-money;

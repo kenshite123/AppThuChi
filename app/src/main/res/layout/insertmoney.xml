@@ -44,6 +44,8 @@
                 android:textSize="30dp"
                 android:textStyle="bold|italic"
                 android:textAlignment="viewEnd"
+                android:maxLength="12"
+
                 />
 
         </RelativeLayout>

@@ -108,20 +108,20 @@ public class AccountFragment extends Fragment {
                 int result = getDataTaiKhoan.UpdateAccount(getContext(),idLoaiTaiKhoan, maND, moneyFomat);
                 if(result == 1)
                 {
-                    Toast.makeText(getActivity(), "Update thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
 
                 }
                 else if(result == 2)
                 {
-                    Toast.makeText(getActivity(), "Update thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 }
                 else  if(result == 3)
                 {
-                    Toast.makeText(getActivity(), "Insert thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Lưu thất bại", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(getActivity(), "Insert thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Lưu thành công", Toast.LENGTH_SHORT).show();
 
                 }
                 dialog.dismiss();
