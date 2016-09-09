@@ -219,7 +219,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:id="@+id/txtThang" />
+                                android:id="@+id/txtThang"
+                                android:drawableRight="@drawable/ic_action_expand" />
 
                         </LinearLayout>
 
@@ -320,6 +321,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:drawableRight="@drawable/ic_action_expand"
                                 android:id="@+id/txtNam" />
 
                         </LinearLayout>

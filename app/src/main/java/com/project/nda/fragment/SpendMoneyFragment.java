@@ -286,8 +286,8 @@ public class SpendMoneyFragment extends Fragment {
     {
         String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
         String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
-        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
-        getATM = fmoney.FormatTexView(getContext(),getATM);
+        getTienMat = fmoney.FormatTextView(getContext(),getTienMat);
+        getATM = fmoney.FormatTextView(getContext(),getATM);
 
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);

@@ -10,7 +10,7 @@ import java.text.DecimalFormatSymbols;
  */
 public class FormatMoney {
 
-    public String FormatTexView(Context context, String money)
+    public String FormatTextView(Context context, String money)
     {
         try {
 

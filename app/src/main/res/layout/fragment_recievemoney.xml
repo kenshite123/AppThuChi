@@ -114,6 +114,7 @@
                     android:layout_toStartOf="@+id/imgMoney"
                     android:background="#ffffff"
                     android:textSize="25dp"
+                    android:maxLength="12"
                     android:textStyle="bold|italic"
                     android:textAlignment="viewEnd"
                     android:hint="Nhập số tiền" />
@@ -326,7 +327,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:id="@+id/edtGhiChuThu"
-                    android:hint=" Nhập ghi chú cho mục chi này..."
+                    android:hint=" Nhập ghi chú cho mục thu này..."
                     android:lines="5"
                     android:layout_below="@id/GhiChu"
                     android:layout_alignParentRight="true"

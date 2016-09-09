@@ -217,6 +217,13 @@ public class RecieveMoneyFragment extends Fragment {
             return;
         }
         money=Integer.parseInt(moneyFomat);
+        int moneyInDatabase=Integer.parseInt(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
+        if(moneyInDatabase + money > 999999999)
+        {
+            Toast.makeText(getContext(), "Tổng tiền trong tài khoản phải dưới 1 tỷ", Toast.LENGTH_SHORT).show();
+            edtNhapTienNhan.requestFocus();
+            return;
+        }
         if(money<=0){
             Toast.makeText(getContext(), "Số tiền phải lớn hơn 0", Toast.LENGTH_SHORT).show();
             edtNhapTienNhan.requestFocus();
@@ -234,9 +241,7 @@ public class RecieveMoneyFragment extends Fragment {
             Toast.makeText(getContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
             // lấy ra money trong database theo 2 tham số idLoaiTaiKhoan & maND
             // sau khi thêm thì trừ ra => update lại
-            int moneyInDatabase=Integer.parseInt(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
-            int moneyAfterInsert= moneyInDatabase+money;
-
+            int moneyAfterInsert = moneyInDatabase + money;
             if(getDataTaiKhoan.UpdateAccount(getContext(), idLoaiTaiKhoan, maND, moneyAfterInsert+"")==2){
                 // update thành công
                 //Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
@@ -250,8 +255,8 @@ public class RecieveMoneyFragment extends Fragment {
     {
         String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
         String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
-        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
-        getATM = fmoney.FormatTexView(getContext(),getATM);
+        getTienMat = fmoney.FormatTextView(getContext(),getTienMat);
+        getATM = fmoney.FormatTextView(getContext(),getATM);
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);
     }

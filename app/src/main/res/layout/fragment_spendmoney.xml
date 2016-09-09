@@ -117,6 +117,7 @@
                 android:background="#ffffff"
                 android:textSize="25dp"
                 android:textStyle="bold|italic"
+                android:maxLength="12"
                 android:textAlignment="viewEnd"
                 android:hint="Nhập số tiền"
                 android:textColorHint="@color/abc_secondary_text_material_light"

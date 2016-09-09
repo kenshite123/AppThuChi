@@ -3,11 +3,12 @@ package com.project.nda.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class ReportFragment extends Fragment {
 
     Calendar cal;
     Date dateFinish;
+    SQLiteDatabase database;
 
     Intent intent;
     String maND;
@@ -61,12 +63,9 @@ public class ReportFragment extends Fragment {
     //Lấy ngày hiện tại
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
-
-    String selectDate;
-    String startDate;
-    String endDate;
-    String startDateY;
-    String endDateY;
+    FormatDateTime formatDateTime = new FormatDateTime();
+    FormatMoney formatMoney = new FormatMoney();
+    ThongKeGetData thongKeGetData=new ThongKeGetData();
 
     @Nullable
     @Override
@@ -101,9 +100,11 @@ public class ReportFragment extends Fragment {
         txtThuHomNay = (TextView) view.findViewById(R.id.txtThuHomnay);
         txtChiHomNay = (TextView) view.findViewById(R.id.txtChiHomnay);
         txtThang = (TextView) view.findViewById(R.id.txtThang);
+        txtThang.setText(currentDateandTime.substring(3, 10 ));
         txtThuThang = (TextView) view.findViewById(R.id.txtThuThang);
         txtChiThang = (TextView) view.findViewById(R.id.txtChiThang);
         txtNam = (TextView) view.findViewById(R.id.txtNam);
+        txtNam.setText(currentDateandTime.substring(6, 10 ));
         txtChiNam = (TextView) view.findViewById(R.id.txtChiNam);
         txtThuNam = (TextView) view.findViewById(R.id.txtThuNam);
         intent=getActivity().getIntent();
@@ -149,9 +150,8 @@ public class ReportFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        FormatDateTime formatDateTime = new FormatDateTime();
                         formatDateTime.FormatDatePicker(getContext(), txtHomNay, dayOfMonth, monthOfYear, year);
-                        LoadReport();
+                        LoadReportByDay(txtHomNay.getText().toString());
                     }
                 };
                 //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
@@ -167,73 +167,136 @@ public class ReportFragment extends Fragment {
 
             }
         });
+        txtThang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        //Mỗi lần thay đổi ngày tháng năm thì cập nhật lại TextView Detail
+                        //Lưu vết lại biến ngày hoàn thành
+                        cal = Calendar.getInstance();
+                        cal.set(year, monthOfYear, dayOfMonth);
+                        if(monthOfYear+1<10){
+                            txtThang.setText("0"+ (monthOfYear+1) + "/" + year);
+                            //Toast.makeText(getContext(), "0"+ (monthOfYear+1) + "/" + year, Toast.LENGTH_SHORT).show();
+                        }else{
+                            txtThang.setText((monthOfYear+1) + "/" + year);
+                            //Toast.makeText(getContext(), (monthOfYear+1) + "/" + year, Toast.LENGTH_SHORT).show();
+                        }
+                        /*
+                        FormatDateTime formatDateTime = new FormatDateTime();
+                        formatDateTime.FormatDatePicker(getContext(), txtThang, 0, monthOfYear, year);
+                        */
+                        //LoadReport();
+                        LoadReportByMonth(txtThang.getText().toString());
+                    }
+                };
+                //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
+                //sẽ giống với trên TextView khi mở nó lên
+                String s = txtThang.getText() + "";
+                String strArrtmp[] = s.split("/");
+                int thang = Integer.parseInt(strArrtmp[0]) - 1;
+                int nam = Integer.parseInt(strArrtmp[1]);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callback, nam, thang, 0);
+                ((ViewGroup) datePickerDialog.getDatePicker()).
+                        findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.setTitle("Chọn ngày hoàn thành");
+                datePickerDialog.show();
+            }
+        });
+        txtNam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        //Mỗi lần thay đổi ngày tháng năm thì cập nhật lại TextView Detail
+                        //Lưu vết lại biến ngày hoàn thành
+                        cal = Calendar.getInstance();
+                        cal.set(year, monthOfYear, dayOfMonth);
+                        txtNam.setText(year+"");
+                        /*
+                        FormatDateTime formatDateTime = new FormatDateTime();
+                        formatDateTime.FormatDatePicker(getContext(), txtThang, 0, monthOfYear, year);
+                        */
+                        //LoadReport();
+                        LoadReportByYear(txtNam.getText().toString());
+                    }
+                };
+                //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
+                //sẽ giống với trên TextView khi mở nó lên
+                String s = txtNam.getText() + "";
+                String strArrtmp[] = s.split("/");
+                int nam = Integer.parseInt(strArrtmp[0]);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callback, nam, 0, 0);
+                ((ViewGroup) datePickerDialog.getDatePicker()).
+                        findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                ((ViewGroup) datePickerDialog.getDatePicker()).
+                        findViewById(Resources.getSystem().getIdentifier("month", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.setTitle("Chọn ngày hoàn thành");
+                datePickerDialog.show();
+            }
+        });
         cvXemTheoNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(getActivity(), ShowDetailReportActivity.class);
+                intent.putExtra("LOAI", 1);
+                intent.putExtra("NGAY", txtHomNay.getText().toString());
+                intent.putExtra("MAND", maND);
+                startActivity(intent);
+            }
+        });
+        cvXemTheoThang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getActivity(), ShowDetailReportActivity.class);
+                intent.putExtra("LOAI", 2);
+                intent.putExtra("THANG", txtThang.getText().toString());
+                intent.putExtra("MAND", maND);
+                startActivity(intent);
+            }
+        });
+        cvXemTheoNam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getActivity(), ShowDetailReportActivity.class);
+                intent.putExtra("LOAI", 3);
+                intent.putExtra("NAM", txtNam.getText().toString());
+                intent.putExtra("MAND", maND);
                 startActivity(intent);
             }
         });
         LoadReport();
 
     }
-    private void LoadReport()
-    {
 
-        FormatMoney formatMoney = new FormatMoney();
-        //Show Thu Chi ngày hiện tại
-        selectDate = txtHomNay.getText().toString();
-        ThongKeGetData getDataHomNay = new ThongKeGetData(getContext(), selectDate, selectDate, maND, idTaiKhoan);
-
-        String chiHomNay = getDataHomNay.getDataThongKeChi();
-        String thuHomNay = getDataHomNay.getDataThongKeThu();
-
-        txtHomNay.setText(selectDate);
-        txtChiHomNay.setText(formatMoney.FormatTexView(getContext(), chiHomNay));
-        txtThuHomNay.setText(formatMoney.FormatTexView(getContext(), thuHomNay));
-
-        //Show thu chi theo thang vd: 09-2016
-        getCurrentMonth();
-        ThongKeGetData getDataThang = new ThongKeGetData(getContext(), startDate, endDate, maND, idTaiKhoan);
-        String chiThang = getDataThang.getDataThongKeChi();
-        String thuThang = getDataThang.getDataThongKeThu();
-
-        txtThang.setText(currentDateandTime.substring(3, 10 ));
-        txtChiThang.setText(formatMoney.FormatTexView(getContext(), chiThang));
-        txtThuThang.setText(formatMoney.FormatTexView(getContext(), thuThang));
-
-        //Show Thu chi theo năm
-        getCurrentYear();
-        ThongKeGetData getDataNam = new ThongKeGetData(getContext(), startDateY, endDateY, maND, idTaiKhoan);
-        String chiNam = getDataThang.getDataThongKeChi();
-        String thuNam = getDataNam.getDataThongKeThu();
-
-        txtNam.setText(currentDateandTime.substring(6, 10 ));
-        txtChiNam.setText(formatMoney.FormatTexView(getContext(), chiNam));
-        txtThuNam.setText(formatMoney.FormatTexView(getContext(), thuNam));
-
+    private void LoadReportByYear(String s) {
+        // year-01-01 vd: 2016-01-01
+        String startDate= s + "-01-01";
+        String endDate=s+"-12-31";
+        thongKeGetData.LoadData(getActivity(), false, txtChiNam, txtThuNam, maND, startDate, endDate);
     }
 
-    public void getCurrentMonth() {
-        int month=Integer.parseInt(currentDateandTime.substring(3, 5)); // 9
-        int year=Integer.parseInt(currentDateandTime.substring(6, 10));  // 2016
-        if(month<10)
-        {
-            startDate =  "01" + "/0" + month + "/" + year;
-            endDate =DateProcess.getLastDayOfMonth(month, year) + "/0" + month + "/" + year;
-        }else
-        {
-            startDate = "01" + "/" + month + "/" + year;
-            endDate =DateProcess.getLastDayOfMonth(month, year)  + "/" + month + "/" + year;
-        }
-        Log.d("nam", startDate +" "+ endDate);
-
+    private void LoadReportByMonth(String s) {
+        String[] arr=s.split("/");
+        // định dạng theo yyyy-MM-dd
+        String startDate= arr[1] + "-" +arr[0] + "-" + "01";
+        String endDate=arr[1] + "-" + arr[0] + "-" +
+                DateProcess.getLastDayOfMonth(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
+        thongKeGetData.LoadData(getActivity(), false, txtChiThang, txtThuThang, maND, startDate, endDate);
     }
-    public void getCurrentYear() {
-        int month=Integer.parseInt(currentDateandTime.substring(3, 5));
-        int year=Integer.parseInt(currentDateandTime.substring(6, 10));
-            startDateY =  "01" + "/01/" + year;
-            endDateY =DateProcess.getLastDayOfMonth(month, year) + "/12/" + year;
-        Log.d("nam", startDateY +" "+ endDateY);
+
+    private void LoadReportByDay(String s) {
+        String[] arr=s.split("/");
+        String date=arr[2] + "-" + arr[1] + "-" + arr[0];
+        thongKeGetData.LoadData(getActivity(), true, txtChiHomNay, txtThuHomNay, maND, date);
+    }
+
+    private void LoadReport() {
+        LoadReportByDay(txtHomNay.getText().toString());
+        LoadReportByMonth(txtThang.getText().toString());
+        LoadReportByYear(txtNam.getText().toString());
     }
 }

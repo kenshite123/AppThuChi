@@ -68,8 +68,8 @@ public class AccountFragment extends Fragment {
     private void LoadTaiKhoan() {
         String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
         String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
-        getTienMat = fmoney.FormatTexView(getContext(),getTienMat);
-        getATM = fmoney.FormatTexView(getContext(),getATM);
+        getTienMat = fmoney.FormatTextView(getContext(),getTienMat);
+        getATM = fmoney.FormatTextView(getContext(),getATM);
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);
     }
@@ -88,7 +88,15 @@ public class AccountFragment extends Fragment {
         edtMoney.addTextChangedListener(new MoneyText(edtMoney));
         edtMoney.setText(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
 
-        Button btnAgree= (Button) dialog.findViewById(R.id.btnAgree);
+        Button btnAgree = (Button) dialog.findViewById(R.id.btnAgree);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
