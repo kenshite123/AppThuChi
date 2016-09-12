@@ -12,6 +12,9 @@ public class MucThu implements Serializable{
     public MucThu() {
     }
 
+    public MucThu(String mucThu) {
+        MucThu = mucThu;
+    }
     public MucThu(int idMucThu, String mucThu) {
         this.idMucThu = idMucThu;
         MucThu = mucThu;

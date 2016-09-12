@@ -10,6 +10,13 @@ public class MucChi implements Serializable {
     private int idLoaiChi;
     private String MucChi;
 
+    public MucChi() {
+    }
+
+    public MucChi(String mucChi) {
+        MucChi = mucChi;
+    }
+
     public int getIdMucChi() {
         return idMucChi;
     }

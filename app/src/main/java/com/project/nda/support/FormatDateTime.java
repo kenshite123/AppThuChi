@@ -30,5 +30,14 @@ public class FormatDateTime {
 
         }
     }
+    public String FormatDateInsert(Context context, TextView textView)
+    {
+        String dateAfterChange=null;
+        String[] arrDate=textView.getText().toString().split("/");
+        String day=arrDate[0];
+        String month=arrDate[1];
+        String year=arrDate[2];
+        return dateAfterChange=year + "-" + month + "-" + day;
+    }
 
 }

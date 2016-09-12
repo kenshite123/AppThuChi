@@ -62,6 +62,9 @@ public class SpendMoneyFragment extends Fragment {
     TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
     MucChiGetData getDataMucChi = new MucChiGetData();
 
+
+    FormatDateTime formatDateTime = new FormatDateTime();
+
     FormatMoney fmoney = new FormatMoney();
 
     Intent intent;
@@ -157,7 +160,6 @@ public class SpendMoneyFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        FormatDateTime formatDateTime = new FormatDateTime();
                         formatDateTime.FormatDatePicker(getContext(), txtNgayChi, dayOfMonth, monthOfYear, year);
                     }
                 };
@@ -262,10 +264,10 @@ public class SpendMoneyFragment extends Fragment {
             Toast.makeText(getContext(), "Chưa chọn mục cần chi", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        String dateAfterChange = formatDateTime.FormatDateInsert(getContext(),txtNgayChi);
         if(getDataMucChi.insertChi(
                 getContext(), idMucChi, idTaiKhoan, maND,
-                txtNgayChi.getText().toString(), money,
+                dateAfterChange, money,
                 edtGhiChuChi.getText().toString())==-1){
             Toast.makeText(getContext(), "Lưu thất bại", Toast.LENGTH_SHORT).show();
         }else{

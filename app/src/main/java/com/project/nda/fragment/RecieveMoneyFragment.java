@@ -54,7 +54,7 @@ public class RecieveMoneyFragment extends Fragment {
 
     TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
     FormatMoney fmoney = new FormatMoney();
-
+    FormatDateTime formatDateTime = new FormatDateTime();
 
     CardView cvTaiKhoan, cvMucThu, cvNgayThu;
     TextView txtTaiKhoan, txtMucThu, txtNgayThu, txtTienMat, txtATM;
@@ -175,7 +175,6 @@ public class RecieveMoneyFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        FormatDateTime formatDateTime = new FormatDateTime();
                         formatDateTime.FormatDatePicker(getContext(), txtNgayThu, dayOfMonth, monthOfYear, year);
                     }
                 };
@@ -229,9 +228,10 @@ public class RecieveMoneyFragment extends Fragment {
             edtNhapTienNhan.requestFocus();
             return;
         }
+        String dayAfterChange = formatDateTime.FormatDateInsert(getContext(), txtNgayThu);
         if(getDataMucThu.insertThu(
                 getContext(), idMucThu, idTaiKhoan, maND,
-                txtNgayThu.getText().toString(), money,
+                dayAfterChange, money,
                 edtGhiChuThu.getText().toString())==-1)
         {
             Toast.makeText(getContext(), "Lưu thất bại", Toast.LENGTH_SHORT).show();
