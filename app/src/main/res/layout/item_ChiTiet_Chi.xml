@@ -3,71 +3,94 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+        card_view:cardCornerRadius="5dp"
+        card_view:cardUseCompatPadding="true">
 
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="CHI"
-            android:id="@+id/textView5"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:textColor="#800ce6"
-            android:textStyle="bold"
-            android:textSize="25dp" />
-
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            >
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
-                    android:id="@+id/txtMucThuDetails"
-                    android:layout_marginRight="10dp"
-                    android:textStyle="bold"
-                    android:textColor="#ff0000" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
-                    android:id="@+id/txtNgayChiDetails" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="CHI"
+                android:id="@+id/Chi"
+                android:gravity="center"
+                android:textColor="@color/Grey"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
-                android:id="@+id/txtSoTienChiDetails"
-                android:textColor="#000dff"
-                android:textStyle="italic" />
+                android:id="@+id/txtMucChi"
+                android:textStyle="bold"
+                android:textColor="@color/Grey"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/Chi" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/txtGhiChuChiDetails"
-                android:singleLine="false" />
-        </LinearLayout>
-    </LinearLayout>
+                android:text="12-09-2016"
+                android:id="@+id/txtNgayThu"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Ví"
+                android:id="@+id/txtLoaiTaiKhoan"
+                android:textSize="20dp"
+                android:layout_below="@+id/txtMucChi"
+                android:layout_toRightOf="@+id/Chi"
+                android:layout_toEndOf="@+id/Chi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="600.000.000"
+                android:id="@+id/txtSoTienThu"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="italic"
+                android:layout_gravity="right"
+                android:textAlignment="textEnd"
+                android:layout_below="@+id/txtNgayThu"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="ACB"
+                android:id="@+id/txtGhiChuChi"
+                android:singleLine="false"
+                android:layout_below="@+id/txtSoTienThu"
+                android:layout_alignLeft="@+id/txtLoaiTaiKhoan"
+                android:layout_alignStart="@+id/txtLoaiTaiKhoan"
+                android:lines="1"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

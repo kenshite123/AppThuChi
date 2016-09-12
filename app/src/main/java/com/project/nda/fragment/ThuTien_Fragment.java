@@ -94,7 +94,7 @@ public class ThuTien_Fragment extends Fragment {
         cvMucThu = (CardView) view.findViewById(R.id.cvMucThu);
         txtTaiKhoan = (TextView) view.findViewById(R.id.txtTaiKhoan);
         txtNgayThu = (TextView) view.findViewById(R.id.txtNgayThu);
-        txtMucThu = (TextView) view.findViewById(R.id.txtMucThu);
+        txtMucThu = (TextView) view.findViewById(R.id.txtMucChi);
         edtGhiChuThu = (EditText) view.findViewById(R.id.edtGhiChuThu);
         txtTienMat = (TextView) view.findViewById(R.id.txtTienMat);
         txtATM = (TextView) view.findViewById(R.id.txtATM);

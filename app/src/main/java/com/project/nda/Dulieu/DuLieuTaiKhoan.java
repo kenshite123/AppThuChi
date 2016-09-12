@@ -41,6 +41,20 @@ public class DuLieuTaiKhoan {
         cursor.close();
         return idTaiKhoan;
     }
+    public int LayidLoaiTaiKhoan(Context context, int idTaiKhoan){
+        int idLoaiTaiKhoan = 0;
+        database=context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,
+                Context.MODE_PRIVATE,
+                null);
+        String sql="SELECT IDLOAITAIKHOAN FROM TAIKHOAN WHERE IDTAIKHOAN=" + idTaiKhoan;
+        Cursor cursor=database.rawQuery(sql, null);
+        while (cursor.moveToNext()){
+            idLoaiTaiKhoan = cursor.getInt(0);
+        }
+        cursor.close();
+        return idLoaiTaiKhoan;
+    }
+
 
     public int CapNhatTaiKhoan(Context context, int idLoaiTaiKhoan, String maND, String soTien)
     {

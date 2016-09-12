@@ -98,7 +98,7 @@ public class ChiTien_Fragment extends Fragment {
         cvNgayChi = (CardView) view.findViewById(R.id.cvNgayChi);
         cvMucChi = (CardView) view.findViewById(R.id.cvMucChi);
         cvTaiKhoanC = (CardView) view.findViewById(R.id.cvTaiKhoanC);
-        txtNgayChi = (TextView) view.findViewById(R.id.txtNgayChi);
+        txtNgayChi = (TextView) view.findViewById(R.id.txtNgayThu);
         txtMucChi = (TextView) view.findViewById(R.id.txtMucChi);
         txtTaiKhoanChiC = (TextView) view.findViewById(R.id.txtTaiKhoanC);
         txtTienMat = (TextView) view.findViewById(R.id.txtTienMat);

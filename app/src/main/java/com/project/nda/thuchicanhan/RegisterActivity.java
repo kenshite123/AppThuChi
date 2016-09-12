@@ -51,13 +51,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createAlertBuilder() {
         builder = new AlertDialog.Builder(RegisterActivity.this);
-        builder.setTitle("Thông báo");
-        builder.setMessage("Đăng ký thành công!");
+        builder.setTitle("Đăng ký thành công");
+        builder.setMessage("Xin mời đăng nhập!");
         builder.setCancelable(false);
         builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(RegisterActivity.this, ManageActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -88,6 +88,15 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,
                             "Chưa nhập đủ thông tin ! Vui lòng kiểm tra lại !",
                             Toast.LENGTH_SHORT).show();
+                }
+                else if(duLieuDangKy.KiemTraTonTaiNguoiDung(getApplicationContext(), emailRegister) > 0)
+                {
+                    Toast.makeText(RegisterActivity.this,
+                            "Email này đã đăng ký ! Vui lòng kiểm tra lại !",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if (passRegister.length() < 6) { // so sánh 2 mật khẩu
+                    Toast.makeText(RegisterActivity.this, "Mật khẩu phải ít nhất 6 ký tự !", Toast.LENGTH_SHORT).show();
                 }
                 else if (!passRegister.equalsIgnoreCase(confirmPassRegister)) { // so sánh 2 mật khẩu
                     Toast.makeText(RegisterActivity.this, "Mật khẩu nhập lại chưa trùng khớp !", Toast.LENGTH_SHORT).show();

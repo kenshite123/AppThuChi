@@ -81,7 +81,6 @@ public class ShowDetailReportActivity extends AppCompatActivity {
                 String year= intent.getStringExtra("NAM");
                 String startDate=year + "-01-01";
                 String endDate=year + "-12-31";
-                //Toast.makeText(ShowDetailReportActivity.this, startDate + "\n" + endDate, Toast.LENGTH_SHORT).show();
                 duLieuThongKe.DuLieuThongKeChi(getApplicationContext(), chiAdapter, maND, loai, startDate, endDate);
                 duLieuThongKe.DuLieuThongKeThu(getApplicationContext(),thuAdapter, maND, loai, startDate, endDate);
                 break;

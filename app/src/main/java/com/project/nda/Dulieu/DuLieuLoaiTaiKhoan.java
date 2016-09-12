@@ -29,4 +29,17 @@ public class DuLieuLoaiTaiKhoan {
         }
         cursor.close();
     }
+    public String LayTenLoaiTaiKhoan(Context context, int idLoaiTaiKhoan) {
+        String TenLoaiTaiKhoan = null;
+        String mquery = "SELECT TAIKHOAN FROM LOAITAIKHOAN WHERE IDLOAITAIKHOAN =" + idLoaiTaiKhoan;
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery(mquery, null);
+        while (cursor.moveToNext()) {
+            TenLoaiTaiKhoan = cursor.getString(0);
+        }
+        cursor.close();
+        return TenLoaiTaiKhoan;
+    }
+
+
 }

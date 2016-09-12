@@ -81,11 +81,11 @@ public class DuLieuThongKe {
         database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         String sqlThu;
         if(loai==1){
-            sqlThu="SELECT MUCTHU.MUCTHU, THU.NGAYTHU, THU.SOTIENTHU, THU.DIENGIAITHU " +
+            sqlThu="SELECT MUCTHU.MUCTHU, THU.NGAYTHU, THU.SOTIENTHU, THU.DIENGIAITHU, THU.IDTAIKHOAN " +
                     "FROM MUCTHU INNER JOIN THU ON MUCTHU.IDMUCTHU=THU.IDMUCTHU " +
                     "WHERE NGAYTHU='" + date[0] +"' AND MAND=" + maND;
         }else{
-            sqlThu="SELECT MUCTHU.MUCTHU, THU.NGAYTHU, THU.SOTIENTHU, THU.DIENGIAITHU " +
+            sqlThu="SELECT MUCTHU.MUCTHU, THU.NGAYTHU, THU.SOTIENTHU, THU.DIENGIAITHU, THU.IDTAIKHOAN " +
                     "FROM MUCTHU INNER JOIN THU ON MUCTHU.IDMUCTHU=THU.IDMUCTHU " +
                     "WHERE (NGAYTHU BETWEEN '" + date[0] + "' AND '" + date[1] + "') AND MAND=" + maND;
         }
@@ -96,6 +96,7 @@ public class DuLieuThongKe {
             thu.setNgayThu(cursor.getString(1));
             thu.setSoTienThu(cursor.getInt(2));
             thu.setDienGiaiThu(cursor.getString(3));
+            thu.setIdTaiKhoan(cursor.getInt(4));
             thuAdapter.add(thu);
         }
         thuAdapter.notifyDataSetChanged();
@@ -106,11 +107,11 @@ public class DuLieuThongKe {
         database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         String sqlChi;
         if(loai==1) {
-            sqlChi = "SELECT MUCCHI.MUCCHI, CHI.NGAYCHI, CHI.SOTIENCHI, CHI.DIENGIAICHI " +
+            sqlChi = "SELECT MUCCHI.MUCCHI, CHI.NGAYCHI, CHI.SOTIENCHI, CHI.DIENGIAICHI, CHI.IDTAIKHOAN " +
                     "FROM MUCCHI INNER JOIN CHI ON MUCCHI.IDMUCCHI=CHI.IDMUCCHI " +
                     "WHERE NGAYCHI='" + date[0] + "' AND MAND=" + maND;
         }else {
-            sqlChi = "SELECT MUCCHI.MUCCHI, CHI.NGAYCHI, CHI.SOTIENCHI, CHI.DIENGIAICHI " +
+            sqlChi = "SELECT MUCCHI.MUCCHI, CHI.NGAYCHI, CHI.SOTIENCHI, CHI.DIENGIAICHI, CHI.IDTAIKHOAN " +
                     "FROM MUCCHI INNER JOIN CHI ON MUCCHI.IDMUCCHI=CHI.IDMUCCHI " +
                     "WHERE (NGAYCHI BETWEEN '" + date[0] + "' AND '" + date[1] + "') AND MAND=" + maND;
         }
@@ -121,6 +122,7 @@ public class DuLieuThongKe {
             chi.setNgayChi(cursor.getString(1));
             chi.setSoTienChi(cursor.getInt(2));
             chi.setDienGiaiChi(cursor.getString(3));
+            chi.setIdTaiKhoan(cursor.getInt(4));
             chiAdapter.add(chi);
         }
         cursor.close();
