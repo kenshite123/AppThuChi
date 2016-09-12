@@ -2,7 +2,6 @@ package com.project.nda.thuchicanhan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,9 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.project.nda.adapter.GetDataFromAssetsAdapter;
-import com.project.nda.GetData.LoginGetData;
-import com.project.nda.support.EmailValidator;
+import com.project.nda.DuLieu.DuLieuDangNhap;
+import com.project.nda.Adapter.LayDuLieuTuAsset;
+import com.project.nda.Support.EmailValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,10 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton btnToRegister;
     CheckBox checkBox;
 
-    GetDataFromAssetsAdapter dataAdapter = new GetDataFromAssetsAdapter();
-
-    SQLiteDatabase database = null ;
-    LoginGetData loginGetData = new LoginGetData();
+    LayDuLieuTuAsset layDuLieuTuAsset = new LayDuLieuTuAsset();
+    DuLieuDangNhap duLieuDangNhap = new DuLieuDangNhap();
     EmailValidator emailValidator   = new EmailValidator();;
 
     @Override
@@ -38,9 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dangnhap);
 
-        dataAdapter.coppyDatabaseFromAssetsToSystem(LoginActivity.this);
+        layDuLieuTuAsset.SaoChepDuLieuTuAssetVaoHeThong(LoginActivity.this);
         addControls(); //Thao tác trên các controls
         addEvents(); //Xử lý các sự kiện của control
 
@@ -92,11 +89,11 @@ public class LoginActivity extends AppCompatActivity {
        } else if (!emailValidator.validate(email)) {
            Toast.makeText(LoginActivity.this, "Email không hợp lệ !", Toast.LENGTH_SHORT).show();
        }
-       int count = loginGetData.CheckInfoLogin(getApplicationContext(), email, pass);
+       int count = duLieuDangNhap.KiemTraThongTinDangNhap(getApplicationContext(), email, pass);
        if (count == 0) { // ko tồn tại user này
            Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhâp!", Toast.LENGTH_SHORT).show();
        } else {
-           String maND = loginGetData.GetMaND(getApplication(),email, pass);
+           String maND = duLieuDangNhap.LayMaND(getApplication(),email, pass);
            Intent intent = new Intent(LoginActivity.this, ManageActivity.class);
            intent.putExtra("MAND", maND);
            startActivity(intent);

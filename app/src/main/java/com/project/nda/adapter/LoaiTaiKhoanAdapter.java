@@ -1,4 +1,4 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.project.nda.model.LoaiTaiKhoan;
+import com.project.nda.Model.LoaiTaiKhoan;
 import com.project.nda.thuchicanhan.R;
 
 import java.util.List;
@@ -17,14 +17,14 @@ import java.util.List;
  */
 public class LoaiTaiKhoanAdapter extends ArrayAdapter<LoaiTaiKhoan> {
     Activity context;
-    List<LoaiTaiKhoan> listLoaiTaiKhoan;
+    List<LoaiTaiKhoan> dsLoaiTaiKhoan;
     int resource;
 
 
-    public LoaiTaiKhoanAdapter(Activity context, int resource, List<LoaiTaiKhoan> listLoaiTaiKhoan) {
-        super(context, resource, listLoaiTaiKhoan);
+    public LoaiTaiKhoanAdapter(Activity context, int resource, List<LoaiTaiKhoan> dsLoaiTaiKhoan) {
+        super(context, resource, dsLoaiTaiKhoan);
         this.context = context;
-        this.listLoaiTaiKhoan = listLoaiTaiKhoan;
+        this.dsLoaiTaiKhoan = dsLoaiTaiKhoan;
         this.resource = resource;
     }
 
@@ -34,7 +34,7 @@ public class LoaiTaiKhoanAdapter extends ArrayAdapter<LoaiTaiKhoan> {
         View row = inflater.inflate(this.resource, null);
 
         TextView txtMucChi = (TextView) row.findViewById(R.id.txtTenMucThu);
-        final LoaiTaiKhoan loaiTaiKhoan = this.listLoaiTaiKhoan.get(position);
+        final LoaiTaiKhoan loaiTaiKhoan = this.dsLoaiTaiKhoan.get(position);
         txtMucChi.setText(loaiTaiKhoan.getTaiKhoan());
 
         return row;

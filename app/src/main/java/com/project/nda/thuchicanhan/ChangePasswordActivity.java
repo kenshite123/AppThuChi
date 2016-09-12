@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.project.nda.GetData.UserGetData;
+import com.project.nda.DuLieu.DuLieuNguoiDung;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -23,12 +23,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
     Intent intent;
     String maND;
 
-    UserGetData userGetData = new UserGetData();
+    DuLieuNguoiDung duLieuNguoiDung = new DuLieuNguoiDung();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_password);
+        setContentView(R.layout.activity_doimatkhau);
 
         final ActionBar actionBar = getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,7 +60,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         intent = getIntent();
         maND = intent.getStringExtra("MAND");
-        String password = userGetData.GetPassWord(getApplicationContext(), maND);
+        String password = duLieuNguoiDung.LayPassword(getApplicationContext(), maND);
         if (passOld.equalsIgnoreCase("")) {
             Toast.makeText(ChangePasswordActivity.this,
                     "Chưa nhập mật khẩu cũ!",
@@ -93,7 +93,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         }
         else
         {
-            int r = userGetData.UpdatePassword(getApplicationContext(), maND, passNew);
+            int r = duLieuNguoiDung.CapNhatPassword(getApplicationContext(), maND, passNew);
             if(r > 0)
             {
                 builder = new AlertDialog.Builder(ChangePasswordActivity.this);

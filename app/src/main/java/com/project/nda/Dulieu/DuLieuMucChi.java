@@ -1,13 +1,13 @@
-package com.project.nda.GetData;
+package com.project.nda.DuLieu;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.project.nda.adapter.GetDataFromAssetsAdapter;
-import com.project.nda.model.LoaiChi;
-import com.project.nda.model.MucChi;
+import com.project.nda.Adapter.LayDuLieuTuAsset;
+import com.project.nda.Model.LoaiChi;
+import com.project.nda.Model.MucChi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,27 +16,28 @@ import java.util.List;
 /**
  * Created by ndact on 31/08/2016.
  */
-public class MucChiGetData {
+public class DuLieuMucChi {
 
     SQLiteDatabase database = null;
-    public void ListMucChi(Context context, ArrayList<LoaiChi> listDataLoaiChi,HashMap<LoaiChi, List<MucChi>> listDataMucChi)
+
+    public void DanhSachMucChi(Context context, ArrayList<LoaiChi> dsLoaiChi,HashMap<LoaiChi, List<MucChi>> dsDataMucChi)
     {
-        listDataLoaiChi.clear();
-        listDataMucChi.clear();
+        dsLoaiChi.clear();
+        dsDataMucChi.clear();
         String query = "SELECT * FROM LOAICHI";
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,android.content.Context.MODE_PRIVATE ,null);
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,android.content.Context.MODE_PRIVATE ,null);
         Cursor cursor = database.rawQuery(query, null);
         while (cursor.moveToNext()) {
             LoaiChi loaiChi = new LoaiChi();
             loaiChi.setIdLoaiChi(cursor.getInt(0));
             loaiChi.setTenLoaiChi(cursor.getString(1));
-            listDataLoaiChi.add(loaiChi);
+            dsLoaiChi.add(loaiChi);
         }
         //Lấy danh sách mục chi theo idLoaiChi
-        for (int i = 0; i < listDataLoaiChi.size(); i++) {
+        for (int i = 0; i < dsLoaiChi.size(); i++) {
             ArrayList<MucChi> arr = new ArrayList<>();
-            String mquery = "SELECT * FROM MUCCHI WHERE idLoaiChi=" + listDataLoaiChi.get(i).getIdLoaiChi();
-            database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,android.content.Context.MODE_PRIVATE ,null);
+            String mquery = "SELECT * FROM MUCCHI WHERE idLoaiChi=" + dsLoaiChi.get(i).getIdLoaiChi();
+            database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,android.content.Context.MODE_PRIVATE ,null);
             cursor = database.rawQuery(mquery, null);
             while (cursor.moveToNext()) {
                 MucChi mucChi = new MucChi();
@@ -44,14 +45,14 @@ public class MucChiGetData {
                 mucChi.setIdLoaiChi(cursor.getInt(1));
                 mucChi.setMucChi(cursor.getString(2));
                 arr.add(mucChi);
-                listDataMucChi.put(listDataLoaiChi.get(i), arr);
+                dsDataMucChi.put(dsLoaiChi.get(i), arr);
             }
             cursor.close();
         }
     }
-    public long insertChi(Context context, int idMucChi, int idTaiKhoan,
+    public long ThemChi(Context context, int idMucChi, int idTaiKhoan,
                           String MaND, String NgayChi, int SoTienChi, String DienGiaiChi){
-        database=context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
+        database=context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
         ContentValues insertNewValue=new ContentValues();
@@ -64,8 +65,8 @@ public class MucChiGetData {
         long kq=database.insert("Chi", null, insertNewValue);
         return kq;
     }
-    public void ReSetDataChi(Context context, String maND) {
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+    public void LamMoiDulieuChi(Context context, String maND) {
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         database.delete("Chi","MAND=?", new String[]{maND});
     }
 

@@ -1,4 +1,4 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.app.Activity;
 import android.view.View;
@@ -6,14 +6,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.project.nda.model.Thu;
-import com.project.nda.support.FormatMoney;
+import com.project.nda.Model.Thu;
+import com.project.nda.Support.DinhDangTienTe;
 import com.project.nda.thuchicanhan.R;
 
 /**
  * Created by DELL on 9/7/2016.
  */
 public class ThuAdapter extends ArrayAdapter<Thu> {
+
     Activity context;
     int resource;
     public ThuAdapter(Activity context, int resource) {
@@ -32,11 +33,11 @@ public class ThuAdapter extends ArrayAdapter<Thu> {
         TextView txtGhiChuThuDetails= (TextView) view.findViewById(R.id.txtGhiChuThuDetails);
 
         Thu thu=this.getItem(position);
-        FormatMoney formatMoney=new FormatMoney();
+        DinhDangTienTe dinhDangTienTe=new DinhDangTienTe();
 
         txtMucThuDetails.setText(thu.getIdMucThu().getMucThu());
         txtNgayThuDetails.setText(thu.getNgayThu());
-        txtSoTienThuDetails.setText(formatMoney.FormatTextView(context, thu.getSoTienThu()+""));
+        txtSoTienThuDetails.setText(dinhDangTienTe.DinhDangTextView(context, thu.getSoTienThu()+""));
         txtGhiChuThuDetails.setText(thu.getDienGiaiThu());
 
         return view;

@@ -1,4 +1,4 @@
-package com.project.nda.support;
+package com.project.nda.Support;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,11 +11,11 @@ import java.util.Locale;
 /**
  * Created by ndact on 31/08/2016.
  */
-public class MoneyText implements TextWatcher{
+public class DinhDangNhapTienTe implements TextWatcher{
 
     EditText editText;
 
-    public MoneyText(EditText edtNhapTienChi)
+    public DinhDangNhapTienTe(EditText edtNhapTienChi)
     {
         this.editText = edtNhapTienChi;
     }

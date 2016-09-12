@@ -1,4 +1,4 @@
-package com.project.nda.model;
+package com.project.nda.Model;
 
 import java.io.Serializable;
 

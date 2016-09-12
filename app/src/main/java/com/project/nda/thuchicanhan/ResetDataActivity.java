@@ -9,17 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.project.nda.GetData.MucChiGetData;
-import com.project.nda.GetData.MucThuGetData;
-import com.project.nda.GetData.TaiKhoanGetData;
+import com.project.nda.DuLieu.DuLieuMucChi;
+import com.project.nda.DuLieu.DuLieuMucThu;
+import com.project.nda.DuLieu.DuLieuTaiKhoan;
 
 public class ResetDataActivity extends AppCompatActivity {
 
     Button btnReset;
     AlertDialog.Builder builder;
-    TaiKhoanGetData taiKhoanGetData = new  TaiKhoanGetData();
-    MucThuGetData mucThuGetData = new MucThuGetData();
-    MucChiGetData m,mucChiGetData = new MucChiGetData();
+    DuLieuTaiKhoan duLieuTaiKhoan = new DuLieuTaiKhoan();
+    DuLieuMucThu duLieuMucThu = new DuLieuMucThu();
+    DuLieuMucChi duLieuMucChi = new DuLieuMucChi();
 
     Intent intent;
     String maND;
@@ -27,7 +27,7 @@ public class ResetDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_data);
+        setContentView(R.layout.activity_lammoidulieu);
 
         final ActionBar actionBar = getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,9 +54,9 @@ public class ResetDataActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        taiKhoanGetData.ReSetDataTaiKhoan(getApplicationContext(),maND);
-                        mucChiGetData.ReSetDataChi(getApplicationContext(),maND);
-                        mucThuGetData.ReSetDataThu(getApplicationContext(),maND);
+                        duLieuTaiKhoan.LamMoiDulieuTaiKhoan(getApplicationContext(),maND);
+                        duLieuMucChi.LamMoiDulieuChi(getApplicationContext(),maND);
+                        duLieuMucThu.LamMoiDuLieuThu(getApplicationContext(),maND);
                         finish();
                     }
                 });

@@ -1,4 +1,4 @@
-package com.project.nda.support;
+package com.project.nda.Support;
 
 import android.content.Context;
 
@@ -8,21 +8,21 @@ import java.text.DecimalFormatSymbols;
 /**
  * Created by ndact on 04/09/2016.
  */
-public class FormatMoney {
+public class DinhDangTienTe {
 
-    public String FormatTextView(Context context, String money)
+    public String DinhDangTextView(Context context, String tiente)
     {
         try {
 
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setDecimalSeparator('.');
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###", symbols);
-            money = decimalFormat.format(Integer.parseInt(money));
+            tiente = decimalFormat.format(Integer.parseInt(tiente));
         }
         catch (Exception e)
         {
 
         }
-        return  money;
+        return  tiente;
     }
 }

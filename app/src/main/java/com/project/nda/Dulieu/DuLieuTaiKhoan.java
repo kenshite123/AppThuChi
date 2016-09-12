@@ -1,36 +1,36 @@
-package com.project.nda.GetData;
+package com.project.nda.DuLieu;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.project.nda.adapter.GetDataFromAssetsAdapter;
+import com.project.nda.Adapter.LayDuLieuTuAsset;
 
 /**
  * Created by ndact on 31/08/2016.
  */
-public class TaiKhoanGetData {
+public class DuLieuTaiKhoan {
     SQLiteDatabase database =  null;
 
-    public String getMoney(Context context, int idLoaiTaiKhoan, String maND){
-        String money = "";
-        database=context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
+    public String LayDuLieuTaiKhoan(Context context, int idLoaiTaiKhoan, String maND){
+        String taikhoan = "";
+        database=context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
         String sql="SELECT SOTIEN FROM TAIKHOAN WHERE IDLOAITAIKHOAN=" + idLoaiTaiKhoan + " AND MAND=" + maND;
         Cursor cursor=database.rawQuery(sql, null);
         while (cursor.moveToNext()){
-            money = cursor.getString(0);
+            taikhoan = cursor.getString(0);
         }
         cursor.close();
-        return money;
+        return taikhoan;
 
     }
 
-    public int getIdTaiKhoan(Context context, int idLoaiTaiKhoan, String maND){
+    public int LayIdTaiKhoan(Context context, int idLoaiTaiKhoan, String maND){
         int idTaiKhoan = 0;
-        database=context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
+        database=context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
         String sql="SELECT idTaiKhoan FROM TAIKHOAN WHERE IDLOAITAIKHOAN=" + idLoaiTaiKhoan + " AND MAND=" + maND;
@@ -42,11 +42,11 @@ public class TaiKhoanGetData {
         return idTaiKhoan;
     }
 
-    public int UpdateAccount(Context context, int idLoaiTaiKhoan, String maND, String soTien)
+    public int CapNhatTaiKhoan(Context context, int idLoaiTaiKhoan, String maND, String soTien)
     {
         int flag = 0;
         database = context.openOrCreateDatabase(
-                GetDataFromAssetsAdapter.DATABASE_NAME,
+                LayDuLieuTuAsset.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
         // ở đây tiền mặt là ví ==> idLoaiTaiKhoan=1 ( xem trong database )
@@ -103,8 +103,8 @@ public class TaiKhoanGetData {
         }
         return flag;
     }
-    public void ReSetDataTaiKhoan(Context context, String maND) {
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+    public void LamMoiDulieuTaiKhoan(Context context, String maND) {
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         database.delete("TAIKHOAN","MAND=?", new String[]{maND});
     }
 

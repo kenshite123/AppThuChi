@@ -19,7 +19,7 @@ public class RestorePassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restore_pass);
+        setContentView(R.layout.activity_khoiphucmatkhau);
 
         final ActionBar actionBar = getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

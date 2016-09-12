@@ -1,10 +1,9 @@
-package com.project.nda.fragment;
+package com.project.nda.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,16 +21,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.nda.adapter.LoaiTaiKhoanAdapter;
-import com.project.nda.adapter.MucThuAdapter;
-import com.project.nda.GetData.LoaiTaiKhoanGetData;
-import com.project.nda.GetData.MucThuGetData;
-import com.project.nda.GetData.TaiKhoanGetData;
-import com.project.nda.model.LoaiTaiKhoan;
-import com.project.nda.model.MucThu;
-import com.project.nda.support.FormatDateTime;
-import com.project.nda.support.FormatMoney;
-import com.project.nda.support.MoneyText;
+import com.project.nda.DuLieu.DuLieuLoaiTaiKhoan;
+import com.project.nda.DuLieu.DuLieuMucThu;
+import com.project.nda.DuLieu.DuLieuTaiKhoan;
+import com.project.nda.Adapter.LoaiTaiKhoanAdapter;
+import com.project.nda.Adapter.MucThuAdapter;
+import com.project.nda.Model.LoaiTaiKhoan;
+import com.project.nda.Model.MucThu;
+import com.project.nda.Support.DinhDangNgay;
+import com.project.nda.Support.DinhDangNhapTienTe;
+import com.project.nda.Support.DinhDangTienTe;
 import com.project.nda.thuchicanhan.R;
 
 import java.text.SimpleDateFormat;
@@ -39,22 +38,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RecieveMoneyFragment extends Fragment {
+public class ThuTien_Fragment extends Fragment {
 
     private View view;
-    private Dialog dialogListMucThu;
-    private Dialog dialogTaiKhoanC;
+    private Dialog dialogMucThu;
+    private Dialog dialogTaiKhoan;
 
-    ArrayList<MucThu> listDataMucThu = new ArrayList<>();
-    MucThuGetData getDataMucThu = new MucThuGetData();
+    ArrayList<MucThu> dsMucThu = new ArrayList<>();
+    DuLieuMucThu duLieuMucThu = new DuLieuMucThu();
 
-    ArrayList<LoaiTaiKhoan> listloaiTaiKhoan = new ArrayList<>();
-    LoaiTaiKhoanGetData loaiTaiKhoanGetData = new LoaiTaiKhoanGetData();
-    LoaiTaiKhoanAdapter taiKhoanAdapter;
+    ArrayList<LoaiTaiKhoan> dsloaiTaiKhoan = new ArrayList<>();
+    DuLieuLoaiTaiKhoan duLieuLoaiTaiKhoan = new DuLieuLoaiTaiKhoan();
+    LoaiTaiKhoanAdapter loaiTaiKhoanAdapter;
 
-    TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
-    FormatMoney fmoney = new FormatMoney();
-    FormatDateTime formatDateTime = new FormatDateTime();
+    DuLieuTaiKhoan duLieuTaiKhoan = new DuLieuTaiKhoan();
+    DinhDangTienTe dinhDangTienTe = new DinhDangTienTe();
+    DinhDangNgay dinhDangNgay = new DinhDangNgay();
 
     CardView cvTaiKhoan, cvMucThu, cvNgayThu;
     TextView txtTaiKhoan, txtMucThu, txtNgayThu, txtTienMat, txtATM;
@@ -63,19 +62,15 @@ public class RecieveMoneyFragment extends Fragment {
 
     Intent intent;
     String maND;
-    SQLiteDatabase database = null;
 
     Calendar cal;
-    Date dateFinish;
 
     int idLoaiTaiKhoan, idTaiKhoan, idMucThu, money;
-    double moneyFormat;
-    String format;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_recievemoney, container, false);
+        view = inflater.inflate(R.layout.fragment_thutien, container, false);
         return view;
     }
 
@@ -85,15 +80,15 @@ public class RecieveMoneyFragment extends Fragment {
 
         addControls();
         addEvents();
-        getDataMucThu.ListMucThu(getContext(), listDataMucThu);
-        loaiTaiKhoanGetData.ListTaiKhoan(getContext(), listloaiTaiKhoan);
+        duLieuMucThu.DanhSachMucThu(getContext(), dsMucThu);
+        duLieuLoaiTaiKhoan.DanhSachTaiKhoan(getContext(), dsloaiTaiKhoan);
         LoadTaiKhoan();
     }
 
     private void addControls() {
         edtNhapTienNhan = (EditText) view.findViewById(R.id.edtNhapTienNhan);
         edtNhapTienNhan.setRawInputType(Configuration.KEYBOARD_12KEY);
-        edtNhapTienNhan.addTextChangedListener(new MoneyText(edtNhapTienNhan));
+        edtNhapTienNhan.addTextChangedListener(new DinhDangNhapTienTe(edtNhapTienNhan));
         cvTaiKhoan = (CardView) view.findViewById(R.id.cvTaiKhoan);
         cvNgayThu = (CardView) view.findViewById(R.id.cvNgayThu);
         cvMucThu = (CardView) view.findViewById(R.id.cvMucThu);
@@ -118,24 +113,24 @@ public class RecieveMoneyFragment extends Fragment {
         cvTaiKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogTaiKhoanC = new Dialog(getActivity());
-                dialogTaiKhoanC.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogTaiKhoanC.setContentView(R.layout.listview_showdata);
+                dialogTaiKhoan = new Dialog(getActivity());
+                dialogTaiKhoan.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogTaiKhoan.setContentView(R.layout.listview_hienthichtietbaocao);
                 getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT);
-                dialogTaiKhoanC.setCancelable(true);
-                dialogTaiKhoanC.show();
-                ListView lvTaiKhoan = (ListView) dialogTaiKhoanC.findViewById(R.id.lvData);
-                taiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(),R.layout.listview_item, listloaiTaiKhoan);
-                lvTaiKhoan.setAdapter(taiKhoanAdapter);
+                dialogTaiKhoan.setCancelable(true);
+                dialogTaiKhoan.show();
+                ListView lvTaiKhoan = (ListView) dialogTaiKhoan.findViewById(R.id.lvData);
+                loaiTaiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(),R.layout.listview_item, dsloaiTaiKhoan);
+                lvTaiKhoan.setAdapter(loaiTaiKhoanAdapter);
                 lvTaiKhoan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        LoaiTaiKhoan loaiTaiKhoan = listloaiTaiKhoan.get(i);
+                        LoaiTaiKhoan loaiTaiKhoan = dsloaiTaiKhoan.get(i);
                         txtTaiKhoan.setText(loaiTaiKhoan.getTaiKhoan());
-                        idLoaiTaiKhoan=loaiTaiKhoan.getIdLoaiTaiKhoan();
-                        idTaiKhoan=getDataTaiKhoan.getIdTaiKhoan(getContext(), idLoaiTaiKhoan, maND); // lấy thành công
-                        dialogTaiKhoanC.dismiss();
+                        idLoaiTaiKhoan = loaiTaiKhoan.getIdLoaiTaiKhoan();
+                        idTaiKhoan = duLieuTaiKhoan.LayIdTaiKhoan(getContext(), idLoaiTaiKhoan, maND); // lấy thành công
+                        dialogTaiKhoan.dismiss();
                     }
                 });
             }
@@ -143,22 +138,23 @@ public class RecieveMoneyFragment extends Fragment {
         cvMucThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogListMucThu = new Dialog(getActivity());
-                dialogListMucThu.setTitle("Chọn Mục Thu");
-                dialogListMucThu.setContentView(R.layout.listview_showdata);
+                dialogMucThu = new Dialog(getActivity());
+                dialogMucThu.setTitle("Chọn Mục Thu");
+                dialogMucThu.setContentView(R.layout.listview_hienthichtietbaocao);
                 getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT);
-                dialogListMucThu.setCancelable(true);
-                dialogListMucThu.show();
-                ListView listView = (ListView) dialogListMucThu.findViewById(R.id.lvData);
-                MucThuAdapter listviewAdapter = new MucThuAdapter(getActivity(),R.layout.listview_item, listDataMucThu);
+                dialogMucThu.setCancelable(true);
+                dialogMucThu.show();
+                ListView listView = (ListView) dialogMucThu.findViewById(R.id.lvData);
+                MucThuAdapter listviewAdapter = new MucThuAdapter(getActivity(),R.layout.listview_item, dsMucThu);
                 listView.setAdapter(listviewAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        MucThu mucThu = listDataMucThu.get(i);
+                        MucThu mucThu = dsMucThu.get(i);
                         txtMucThu.setText(mucThu.getMucThu());
-                        dialogListMucThu.dismiss();
+                        idMucThu = mucThu.getIdMucThu();
+                        dialogMucThu.dismiss();
                     }
                 });
 
@@ -175,7 +171,7 @@ public class RecieveMoneyFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        formatDateTime.FormatDatePicker(getContext(), txtNgayThu, dayOfMonth, monthOfYear, year);
+                        dinhDangNgay.DinhDangDatePicker(getContext(), txtNgayThu, dayOfMonth, monthOfYear, year);
                     }
                 };
                 //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
@@ -216,7 +212,7 @@ public class RecieveMoneyFragment extends Fragment {
             return;
         }
         money=Integer.parseInt(moneyFomat);
-        int moneyInDatabase=Integer.parseInt(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
+        int moneyInDatabase=Integer.parseInt(duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), idLoaiTaiKhoan, maND));
         if(moneyInDatabase + money > 999999999)
         {
             Toast.makeText(getContext(), "Tổng tiền trong tài khoản phải dưới 1 tỷ", Toast.LENGTH_SHORT).show();
@@ -228,8 +224,8 @@ public class RecieveMoneyFragment extends Fragment {
             edtNhapTienNhan.requestFocus();
             return;
         }
-        String dayAfterChange = formatDateTime.FormatDateInsert(getContext(), txtNgayThu);
-        if(getDataMucThu.insertThu(
+        String dayAfterChange = dinhDangNgay.DinhDangNgay(getContext(), txtNgayThu);
+        if(duLieuMucThu.ThemThu(
                 getContext(), idMucThu, idTaiKhoan, maND,
                 dayAfterChange, money,
                 edtGhiChuThu.getText().toString())==-1)
@@ -242,7 +238,7 @@ public class RecieveMoneyFragment extends Fragment {
             // lấy ra money trong database theo 2 tham số idLoaiTaiKhoan & maND
             // sau khi thêm thì trừ ra => update lại
             int moneyAfterInsert = moneyInDatabase + money;
-            if(getDataTaiKhoan.UpdateAccount(getContext(), idLoaiTaiKhoan, maND, moneyAfterInsert+"")==2){
+            if(duLieuTaiKhoan.CapNhatTaiKhoan(getContext(), idLoaiTaiKhoan, maND, moneyAfterInsert+"")==2){
                 // update thành công
                 //Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
                 LoadTaiKhoan();
@@ -253,10 +249,10 @@ public class RecieveMoneyFragment extends Fragment {
 
     private void LoadTaiKhoan()
     {
-        String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
-        String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
-        getTienMat = fmoney.FormatTextView(getContext(),getTienMat);
-        getATM = fmoney.FormatTextView(getContext(),getATM);
+        String getTienMat = duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), 1, maND);
+        String getATM = duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), 2, maND);
+        getTienMat = dinhDangTienTe.DinhDangTextView(getContext(),getTienMat);
+        getATM = dinhDangTienTe.DinhDangTextView(getContext(),getATM);
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);
     }

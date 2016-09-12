@@ -9,7 +9,7 @@ public class GetDataServerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_data_server);
+        setContentView(R.layout.activity_laydulieutuserver);
 
         final ActionBar actionBar = getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

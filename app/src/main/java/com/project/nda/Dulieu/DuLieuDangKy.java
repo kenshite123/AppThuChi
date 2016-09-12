@@ -1,21 +1,21 @@
-package com.project.nda.GetData;
+package com.project.nda.DuLieu;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.project.nda.adapter.GetDataFromAssetsAdapter;
+import com.project.nda.Adapter.LayDuLieuTuAsset;
 
 /**
  * Created by ndact on 31/08/2016.
  */
-public class RegisterData {
+public class DuLieuDangKy {
 
     SQLiteDatabase database = null;
-    public long Register(Context context, String email, String pass)
+    public long DangKy(Context context, String email, String pass)
     {
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,android.content.Context.MODE_PRIVATE, null);
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,android.content.Context.MODE_PRIVATE, null);
         ContentValues row = new ContentValues();
         row.put("Email", email);
         row.put("Password", pass);

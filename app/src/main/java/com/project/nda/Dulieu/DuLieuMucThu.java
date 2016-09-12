@@ -1,39 +1,39 @@
-package com.project.nda.GetData;
+package com.project.nda.DuLieu;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.project.nda.adapter.GetDataFromAssetsAdapter;
-import com.project.nda.model.MucThu;
+import com.project.nda.Adapter.LayDuLieuTuAsset;
+import com.project.nda.Model.MucThu;
 
 import java.util.ArrayList;
 
 /**
  * Created by ndact on 31/08/2016.
  */
-public class MucThuGetData {
+public class DuLieuMucThu {
 
     SQLiteDatabase database = null;
-    public void ListMucThu(Context context, ArrayList<MucThu> listDataMucThu)
+    public void DanhSachMucThu(Context context, ArrayList<MucThu> dsMucThu)
     {
-        listDataMucThu.clear();
+        dsMucThu.clear();
         String mquery = "SELECT * FROM MUCTHU";
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         Cursor cursor = database.rawQuery(mquery, null);
         while (cursor.moveToNext()) {
             MucThu mucThu = new MucThu();
             mucThu.setIdMucThu(cursor.getInt(0));
             mucThu.setMucThu(cursor.getString(1));
-            listDataMucThu.add(mucThu);
+            dsMucThu.add(mucThu);
         }
         cursor.close();
 
     }
-    public long insertThu(Context context, int idMucThu, int idTaiKhoan,
+    public long ThemThu(Context context, int idMucThu, int idTaiKhoan,
                           String MaND, String NgayThu, int SoTienThu, String DienGiaiThu) {
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME,
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME,
                 Context.MODE_PRIVATE,
                 null);
         ContentValues insertNewValue = new ContentValues();
@@ -46,9 +46,8 @@ public class MucThuGetData {
         long kq = database.insert("Thu", null, insertNewValue);
         return kq;
     }
-    public void ReSetDataThu(Context context, String maND) {
-        database = context.openOrCreateDatabase(GetDataFromAssetsAdapter.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
+    public void LamMoiDuLieuThu(Context context, String maND) {
+        database = context.openOrCreateDatabase(LayDuLieuTuAsset.DATABASE_NAME, android.content.Context.MODE_PRIVATE, null);
         database.delete("THU","MAND=?", new String[]{maND});
     }
-
 }

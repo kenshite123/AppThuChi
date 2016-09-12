@@ -1,4 +1,4 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,18 +11,18 @@ import java.io.OutputStream;
 /**
  * Created by ndact on 22/08/2016.
  */
-public class GetDataFromAssetsAdapter {
+public class LayDuLieuTuAsset {
 
 
     public  static final String DATABASE_NAME = "dbThuChi.sqlite" ;
     private static final String DB_PATH_SUFFIX = "/databases/";
 
-    public void coppyDatabaseFromAssetsToSystem(Context context) {
+    public void SaoChepDuLieuTuAssetVaoHeThong(Context context) {
         File dbFile = context.getDatabasePath(DATABASE_NAME);
         if (!dbFile.exists()) {
             try
             {
-                CopyDatabaseFromAssets(context);
+                SaoChepDuLieuTuAsset(context);
             } catch (Exception e)
             {
                 Log.e("Loi", e.toString());
@@ -30,10 +30,10 @@ public class GetDataFromAssetsAdapter {
         }
     }
 
-    public void CopyDatabaseFromAssets(Context context) {
+    public void SaoChepDuLieuTuAsset(Context context) {
         try {
             InputStream is = context.getAssets().open(DATABASE_NAME);
-            String outFileName = getDatabasePathSave(context); //Tra ve duong dan thu muc chua file
+            String outFileName = LayDuongDanLuuDuLieu(context); //Tra ve duong dan thu muc chua file
             File f = new File(context.getApplicationInfo().dataDir + DB_PATH_SUFFIX);
             if (!f.exists()) {
                 f.mkdir();
@@ -55,7 +55,7 @@ public class GetDataFromAssetsAdapter {
 
     }
 
-    public String getDatabasePathSave(Context context) {
+    public String LayDuongDanLuuDuLieu(Context context) {
         return context.getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
     }
 }

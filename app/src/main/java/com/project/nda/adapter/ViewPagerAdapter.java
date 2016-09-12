@@ -1,13 +1,13 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.project.nda.fragment.AccountFragment;
-import com.project.nda.fragment.RecieveMoneyFragment;
-import com.project.nda.fragment.ReportFragment;
-import com.project.nda.fragment.SpendMoneyFragment;
+import com.project.nda.Fragment.TaiKhoan_Fragment;
+import com.project.nda.Fragment.ThuTien_Fragment;
+import com.project.nda.Fragment.BaoCao_Fragment;
+import com.project.nda.Fragment.ChiTien_Fragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -19,19 +19,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0)
         {
-            return new SpendMoneyFragment();
+            return new ChiTien_Fragment();
         }
         else if (position == 1)
         {
-            return new RecieveMoneyFragment();
+            return new ThuTien_Fragment();
         }
         else if (position == 2)
         {
-            return new AccountFragment();
+            return new TaiKhoan_Fragment();
         }
         else if (position == 3)
         {
-            return new ReportFragment();
+            return new BaoCao_Fragment();
         }
         return null;
     }

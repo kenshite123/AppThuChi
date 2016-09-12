@@ -1,4 +1,4 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.project.nda.model.MucThu;
+import com.project.nda.Model.MucThu;
 import com.project.nda.thuchicanhan.R;
 
 import java.util.List;
@@ -18,14 +18,14 @@ import java.util.List;
 public class MucThuAdapter extends ArrayAdapter<MucThu> {
 
     Activity context;
-    List<MucThu> listMucThu;
+    List<MucThu> dsMucThu;
     int resource;
 
 
-    public MucThuAdapter(Activity context, int resource, List<MucThu> listMucThu) {
-        super(context, resource, listMucThu);
+    public MucThuAdapter(Activity context, int resource, List<MucThu> dsMucThu) {
+        super(context, resource, dsMucThu);
         this.context = context;
-        this.listMucThu = listMucThu;
+        this.dsMucThu = dsMucThu;
         this.resource = resource;
     }
 
@@ -35,7 +35,7 @@ public class MucThuAdapter extends ArrayAdapter<MucThu> {
         View row = inflater.inflate(this.resource, null);
 
         TextView txtMucChi = (TextView) row.findViewById(R.id.txtTenMucThu);
-        final MucThu mucThu = this.listMucThu.get(position);
+        final MucThu mucThu = this.dsMucThu.get(position);
         txtMucChi.setText(mucThu.getMucThu());
 
         return row;

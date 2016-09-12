@@ -1,4 +1,4 @@
-package com.project.nda.support;
+package com.project.nda.Support;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

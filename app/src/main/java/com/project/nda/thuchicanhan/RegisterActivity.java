@@ -3,7 +3,6 @@ package com.project.nda.thuchicanhan;
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.project.nda.GetData.RegisterData;
-import com.project.nda.support.EmailValidator;
+import com.project.nda.DuLieu.DuLieuDangKy;
+import com.project.nda.Support.EmailValidator;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -23,8 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
     ImageButton btnRegisterToLogin;
 
     EmailValidator emailValidator;
-    SQLiteDatabase database = null;
-    RegisterData registerData = new RegisterData();
+    DuLieuDangKy duLieuDangKy = new DuLieuDangKy();
 
     AlertDialog.Builder builder;
 
@@ -32,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_dangky);
 
         final ActionBar actionBar = getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    long r =  registerData.Register(getApplicationContext(),emailRegister, passRegister);
+                    long r =  duLieuDangKy.DangKy(getApplicationContext(),emailRegister, passRegister);
                     if(r > 0)
                     {
                         builder.show();

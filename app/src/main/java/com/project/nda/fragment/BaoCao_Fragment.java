@@ -1,4 +1,4 @@
-package com.project.nda.fragment;
+package com.project.nda.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -19,13 +19,13 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.project.nda.GetData.LoaiTaiKhoanGetData;
-import com.project.nda.GetData.ThongKeGetData;
-import com.project.nda.adapter.LoaiTaiKhoanAdapter;
-import com.project.nda.model.LoaiTaiKhoan;
-import com.project.nda.support.DateProcess;
-import com.project.nda.support.FormatDateTime;
-import com.project.nda.support.FormatMoney;
+import com.project.nda.DuLieu.DuLieuLoaiTaiKhoan;
+import com.project.nda.DuLieu.DuLieuThongKe;
+import com.project.nda.Adapter.LoaiTaiKhoanAdapter;
+import com.project.nda.Model.LoaiTaiKhoan;
+import com.project.nda.Support.DateProcess;
+import com.project.nda.Support.DinhDangNgay;
+import com.project.nda.Support.DinhDangTienTe;
 import com.project.nda.thuchicanhan.R;
 import com.project.nda.thuchicanhan.ShowDetailReportActivity;
 
@@ -35,24 +35,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class ReportFragment extends Fragment {
+public class BaoCao_Fragment extends Fragment {
 
     private View view;
-    private Dialog dialogShowTaiKhoan;
-    private Dialog dialogShowTuyChonXem;
-    private Dialog dialogShowDate;
+    private Dialog dialogHienThiTaiKhoan;
 
     CardView cvShowTaiKhoan, cvXemTheoNgay, cvXemTheoThang, cvXemTheoNam;
     TextView txtTenTaiKhoanBaoCao, txtHomNay, txtThang, txtNam;
     TextView txtThuHomNay, txtThuThang, txtThuNam, txtChiHomNay, txtChiThang, txtChiNam ;
 
-    LoaiTaiKhoanGetData loaiTaiKhoanGetData = new LoaiTaiKhoanGetData();
-    ArrayList<LoaiTaiKhoan> listLoaiTaiKhoan = new ArrayList<>();
+    DuLieuLoaiTaiKhoan duLieuLoaiTaiKhoan = new DuLieuLoaiTaiKhoan();
+    ArrayList<LoaiTaiKhoan> dsLoaiTaiKhoan = new ArrayList<>();
 
-    String[] listTuyChonXem = {"Hiện tại", "Tháng", "Năm", "Tùy chọn ngày"};
+    String[] dsTuyChonXem = {"Hiện tại", "Tháng", "Năm", "Tùy chọn ngày"};
 
     Calendar cal;
-    Date dateFinish;
     SQLiteDatabase database;
 
     Intent intent;
@@ -63,15 +60,15 @@ public class ReportFragment extends Fragment {
     //Lấy ngày hiện tại
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
-    FormatDateTime formatDateTime = new FormatDateTime();
-    FormatMoney formatMoney = new FormatMoney();
-    ThongKeGetData thongKeGetData=new ThongKeGetData();
+    DinhDangNgay dinhDangNgay = new DinhDangNgay();
+    DinhDangTienTe formatMoney = new DinhDangTienTe();
+    DuLieuThongKe duLieuThongKe = new DuLieuThongKe();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_report, container, false);
+        view = inflater.inflate(R.layout.fragment_thongke, container, false);
         ;
         return view;
     }
@@ -82,7 +79,7 @@ public class ReportFragment extends Fragment {
 
         addControls();
         addEvents();
-        loaiTaiKhoanGetData.ListTaiKhoan(getContext(), listLoaiTaiKhoan);
+        duLieuLoaiTaiKhoan.DanhSachTaiKhoan(getContext(), dsLoaiTaiKhoan);
 
     }
 
@@ -115,23 +112,23 @@ public class ReportFragment extends Fragment {
         cvShowTaiKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogShowTaiKhoan = new Dialog(getActivity());
-                dialogShowTaiKhoan.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogShowTaiKhoan.setContentView(R.layout.listview_showdata);
+                dialogHienThiTaiKhoan = new Dialog(getActivity());
+                dialogHienThiTaiKhoan.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogHienThiTaiKhoan.setContentView(R.layout.listview_hienthichtietbaocao);
                 getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT);
-                dialogShowTaiKhoan.setCancelable(true);
-                dialogShowTaiKhoan.show();
-                ListView listView = (ListView) dialogShowTaiKhoan.findViewById(R.id.lvData);
-                LoaiTaiKhoanAdapter taiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(), R.layout.listview_item, listLoaiTaiKhoan);
+                dialogHienThiTaiKhoan.setCancelable(true);
+                dialogHienThiTaiKhoan.show();
+                ListView listView = (ListView) dialogHienThiTaiKhoan.findViewById(R.id.lvData);
+                LoaiTaiKhoanAdapter taiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(), R.layout.listview_item, dsLoaiTaiKhoan);
                 listView.setAdapter(taiKhoanAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        LoaiTaiKhoan loaiTaiKhoan = listLoaiTaiKhoan.get(i);
+                        LoaiTaiKhoan loaiTaiKhoan = dsLoaiTaiKhoan.get(i);
                         txtTenTaiKhoanBaoCao.setText(loaiTaiKhoan.getTaiKhoan());
                         idTaiKhoan = loaiTaiKhoan.getIdLoaiTaiKhoan();
-                        dialogShowTaiKhoan.dismiss();
+                        dialogHienThiTaiKhoan.dismiss();
                         LoadReport();
 
                     }
@@ -150,7 +147,7 @@ public class ReportFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        formatDateTime.FormatDatePicker(getContext(), txtHomNay, dayOfMonth, monthOfYear, year);
+                        dinhDangNgay.DinhDangDatePicker(getContext(), txtHomNay, dayOfMonth, monthOfYear, year);
                         LoadReportByDay(txtHomNay.getText().toString());
                     }
                 };
@@ -276,7 +273,7 @@ public class ReportFragment extends Fragment {
         // year-01-01 vd: 2016-01-01
         String startDate= s + "-01-01";
         String endDate=s+"-12-31";
-        thongKeGetData.LoadData(getActivity(), false, txtChiNam, txtThuNam, maND, startDate, endDate);
+        duLieuThongKe.DuLieu(getActivity(), false, txtChiNam, txtThuNam, maND, startDate, endDate);
     }
 
     private void LoadReportByMonth(String s) {
@@ -285,13 +282,13 @@ public class ReportFragment extends Fragment {
         String startDate= arr[1] + "-" +arr[0] + "-" + "01";
         String endDate=arr[1] + "-" + arr[0] + "-" +
                 DateProcess.getLastDayOfMonth(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
-        thongKeGetData.LoadData(getActivity(), false, txtChiThang, txtThuThang, maND, startDate, endDate);
+        duLieuThongKe.DuLieu(getActivity(), false, txtChiThang, txtThuThang, maND, startDate, endDate);
     }
 
     private void LoadReportByDay(String s) {
         String[] arr=s.split("/");
         String date=arr[2] + "-" + arr[1] + "-" + arr[0];
-        thongKeGetData.LoadData(getActivity(), true, txtChiHomNay, txtThuHomNay, maND, date);
+        duLieuThongKe.DuLieu(getActivity(), true, txtChiHomNay, txtThuHomNay, maND, date);
     }
 
     private void LoadReport() {

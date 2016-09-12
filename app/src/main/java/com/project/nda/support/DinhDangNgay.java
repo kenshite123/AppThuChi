@@ -1,4 +1,4 @@
-package com.project.nda.support;
+package com.project.nda.Support;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -6,9 +6,9 @@ import android.widget.TextView;
 /**
  * Created by ndact on 06/09/2016.
  */
-public class FormatDateTime {
+public class DinhDangNgay {
 
-    public void FormatDatePicker(Context context, TextView texiView, int dayOfMonth, int monthOfYear, int year) {
+    public void DinhDangDatePicker(Context context, TextView texiView, int dayOfMonth, int monthOfYear, int year) {
         if(dayOfMonth < 10) {
             if(monthOfYear + 1<10)
             {
@@ -30,14 +30,14 @@ public class FormatDateTime {
 
         }
     }
-    public String FormatDateInsert(Context context, TextView textView)
+    public String DinhDangNgay(Context context, TextView textView)
     {
-        String dateAfterChange=null;
+        String ngaydadinhdang = null;
         String[] arrDate=textView.getText().toString().split("/");
-        String day=arrDate[0];
-        String month=arrDate[1];
-        String year=arrDate[2];
-        return dateAfterChange=year + "-" + month + "-" + day;
+        String ngay = arrDate[0];
+        String thang = arrDate[1];
+        String nam = arrDate[2];
+        return ngaydadinhdang = nam + "-" + thang + "-" + ngay;
     }
 
 }

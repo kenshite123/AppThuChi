@@ -18,7 +18,7 @@ public class LaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState); requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_luanch);
+        setContentView(R.layout.activity_moapp);
 
         timerTask=new TimerTask() {
             @Override

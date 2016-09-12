@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.project.nda.adapter.ViewPagerAdapter;
+import com.project.nda.Adapter.ViewPagerAdapter;
 
 public class ManageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +43,7 @@ public class ManageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_manage);
+        setContentView(R.layout.activity_quanly);
 
         addControls();
         addEvents();

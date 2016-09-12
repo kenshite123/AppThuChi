@@ -1,10 +1,9 @@
-package com.project.nda.fragment;
+package com.project.nda.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,17 +22,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.nda.GetData.LoaiTaiKhoanGetData;
-import com.project.nda.GetData.MucChiGetData;
-import com.project.nda.GetData.TaiKhoanGetData;
-import com.project.nda.adapter.LoaiTaiKhoanAdapter;
-import com.project.nda.adapter.MucChiExpandListAdapter;
-import com.project.nda.model.LoaiChi;
-import com.project.nda.model.LoaiTaiKhoan;
-import com.project.nda.model.MucChi;
-import com.project.nda.support.FormatDateTime;
-import com.project.nda.support.FormatMoney;
-import com.project.nda.support.MoneyText;
+import com.project.nda.DuLieu.DuLieuLoaiTaiKhoan;
+import com.project.nda.DuLieu.DuLieuMucChi;
+import com.project.nda.DuLieu.DuLieuTaiKhoan;
+import com.project.nda.Adapter.LoaiTaiKhoanAdapter;
+import com.project.nda.Adapter.MucChiExpandListAdapter;
+import com.project.nda.Model.LoaiChi;
+import com.project.nda.Model.LoaiTaiKhoan;
+import com.project.nda.Model.MucChi;
+import com.project.nda.Support.DinhDangNgay;
+import com.project.nda.Support.DinhDangNhapTienTe;
+import com.project.nda.Support.DinhDangTienTe;
 import com.project.nda.thuchicanhan.R;
 
 import java.text.SimpleDateFormat;
@@ -43,36 +42,34 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class SpendMoneyFragment extends Fragment {
+public class ChiTien_Fragment extends Fragment {
 
     private View view;
-    private Dialog dialogListMucChi;
-    private Dialog dialogTaiKhoanC;
+    private Dialog dialogdsMucChi;
+    private Dialog dialogTaiKhoan;
 
     CardView cvTaiKhoanC, cvMucChi, cvNgayChi;
     TextView txtMucChi, txtNgayChi, txtTaiKhoanChiC, txtTienMat, txtATM;
     EditText edtNhapTienChi, edtGhiChuChi;
     Button btnLuuChi;
 
-    ArrayList<LoaiChi> listDataLoaiChi = new ArrayList<>();
-    HashMap<LoaiChi, List<MucChi>> listDataMucChi = new HashMap<LoaiChi, List<MucChi>>();
-    ArrayList<LoaiTaiKhoan> listDataLoaiTaiKhoanC = new ArrayList<>();
+    ArrayList<LoaiChi> dsLoaiChi = new ArrayList<>();
+    HashMap<LoaiChi, List<MucChi>> dsMucChi = new HashMap<LoaiChi, List<MucChi>>();
+    ArrayList<LoaiTaiKhoan> dsLoaiTaiKhoan = new ArrayList<>();
 
-    LoaiTaiKhoanGetData getDataLTK = new LoaiTaiKhoanGetData();
-    TaiKhoanGetData getDataTaiKhoan = new TaiKhoanGetData();
-    MucChiGetData getDataMucChi = new MucChiGetData();
+    DuLieuLoaiTaiKhoan duLieuLoaiTaiKhoan = new DuLieuLoaiTaiKhoan();
+    DuLieuTaiKhoan duLieuTaiKhoan = new DuLieuTaiKhoan();
+    DuLieuMucChi duLieuMucChi = new DuLieuMucChi();
 
 
-    FormatDateTime formatDateTime = new FormatDateTime();
+    DinhDangNgay dinhDangNgay = new DinhDangNgay();
 
-    FormatMoney fmoney = new FormatMoney();
+    DinhDangTienTe dinhDangTienTe = new DinhDangTienTe();
 
     Intent intent;
     String maND;
-    SQLiteDatabase database = null;
 
     Calendar cal;
-    Date dateFinish;
 
     int idLoaiTaiKhoan, idTaiKhoan, idMucChi, money;
 
@@ -80,7 +77,7 @@ public class SpendMoneyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_spendmoney, container, false);
+        view = inflater.inflate(R.layout.fragment_chitien, container, false);
         return view;
     }
 
@@ -91,8 +88,8 @@ public class SpendMoneyFragment extends Fragment {
 
         addControls();
         addEvents();
-        getDataMucChi.ListMucChi(getContext(),listDataLoaiChi, listDataMucChi);
-        getDataLTK.ListTaiKhoan(getContext(),listDataLoaiTaiKhoanC );
+        duLieuMucChi.DanhSachMucChi(getContext(), dsLoaiChi, dsMucChi);
+        duLieuLoaiTaiKhoan.DanhSachTaiKhoan(getContext(), dsLoaiTaiKhoan );
     }
 
     private void addControls() {
@@ -121,30 +118,30 @@ public class SpendMoneyFragment extends Fragment {
         cvTaiKhoanC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogTaiKhoanC = new Dialog(getActivity());
-                dialogTaiKhoanC.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogTaiKhoanC.setContentView(R.layout.listview_showdata);
+                dialogTaiKhoan = new Dialog(getActivity());
+                dialogTaiKhoan.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogTaiKhoan.setContentView(R.layout.listview_hienthichtietbaocao);
                 getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT);
-                dialogTaiKhoanC.setCancelable(true);
-                dialogTaiKhoanC.show();
-                ListView lvTaiKhoan = (ListView) dialogTaiKhoanC.findViewById(R.id.lvData);
-                LoaiTaiKhoanAdapter taiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(), R.layout.listview_item, listDataLoaiTaiKhoanC);
+                dialogTaiKhoan.setCancelable(true);
+                dialogTaiKhoan.show();
+                ListView lvTaiKhoan = (ListView) dialogTaiKhoan.findViewById(R.id.lvData);
+                LoaiTaiKhoanAdapter taiKhoanAdapter = new LoaiTaiKhoanAdapter(getActivity(), R.layout.listview_item, dsLoaiTaiKhoan);
                 lvTaiKhoan.setAdapter(taiKhoanAdapter);
 
                 lvTaiKhoan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        LoaiTaiKhoan loaiTaiKhoan = listDataLoaiTaiKhoanC.get(i);
+                        LoaiTaiKhoan loaiTaiKhoan = dsLoaiTaiKhoan.get(i);
                         txtTaiKhoanChiC.setText(loaiTaiKhoan.getTaiKhoan());
                         idLoaiTaiKhoan=loaiTaiKhoan.getIdLoaiTaiKhoan();
                         // lấy ra idTaiKhoan để thêm vào table Chi
                         // nếu idTaiKhoan != 0 => tồn tại 1 tài khoản với MaND & Loại tài khoản
                         // tức là user này đã nhập số tiền vào tài khoản. Ví dụ: user chinh - Ví : 100.000 đ => idTaiKhoan != 0
                         // nếu idTaiKhoan == 0 => chưa nhập số tiền. Ví dụ user chính - ATM chưa nhập số tiền => idTaiKhoan = 0
-                        idTaiKhoan=getDataTaiKhoan.getIdTaiKhoan(getContext(), idLoaiTaiKhoan, maND); // lấy thành công
+                        idTaiKhoan=duLieuTaiKhoan.LayIdTaiKhoan(getContext(), idLoaiTaiKhoan, maND); // lấy thành công
                         //Toast.makeText(getContext(), idTaiKhoan+"", Toast.LENGTH_SHORT).show();
-                        dialogTaiKhoanC.dismiss();
+                        dialogTaiKhoan.dismiss();
                     }
                 });
             }
@@ -160,7 +157,7 @@ public class SpendMoneyFragment extends Fragment {
                         //Lưu vết lại biến ngày hoàn thành
                         cal = Calendar.getInstance();
                         cal.set(year, monthOfYear, dayOfMonth);
-                        formatDateTime.FormatDatePicker(getContext(), txtNgayChi, dayOfMonth, monthOfYear, year);
+                        dinhDangNgay.DinhDangDatePicker(getContext(), txtNgayChi, dayOfMonth, monthOfYear, year);
                     }
                 };
                 //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog
@@ -178,34 +175,34 @@ public class SpendMoneyFragment extends Fragment {
         cvMucChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogListMucChi = new Dialog(getContext());
-                dialogListMucChi.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogListMucChi.setContentView(R.layout.expandlistview_mucchi);
+                dialogdsMucChi = new Dialog(getContext());
+                dialogdsMucChi.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogdsMucChi.setContentView(R.layout.expandlistview_mucchi);
                 getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT);
-                dialogListMucChi.setCancelable(true);
-                dialogListMucChi.show();
-                ExpandableListView expListView = (ExpandableListView) dialogListMucChi.findViewById(R.id.lvExp);
-                MucChiExpandListAdapter sadapter = new MucChiExpandListAdapter(getContext(), listDataLoaiChi, listDataMucChi);
+                dialogdsMucChi.setCancelable(true);
+                dialogdsMucChi.show();
+                ExpandableListView expListView = (ExpandableListView) dialogdsMucChi.findViewById(R.id.lvExp);
+                MucChiExpandListAdapter sadapter = new MucChiExpandListAdapter(getContext(), dsLoaiChi, dsMucChi);
                 expListView.setAdapter(sadapter);
                 expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                         //Nothing here ever fires
-                        MucChi mucChi = (MucChi) listDataMucChi.get(listDataLoaiChi.get(groupPosition)).get(childPosition);
+                        MucChi mucChi = (MucChi) dsMucChi.get(dsLoaiChi.get(groupPosition)).get(childPosition);
                         txtMucChi.setText(mucChi.getMucChi());
                         // lấy ra idMucChi để insert vào table
                         idMucChi=mucChi.getIdMucChi(); // lấy thành công
                         //Toast.makeText(getContext(), idMucChi+"", Toast.LENGTH_SHORT).show();
-                        dialogListMucChi.dismiss();
+                        dialogdsMucChi.dismiss();
                         return true;
                     }
                 });
             }
         });
         edtNhapTienChi.setRawInputType(Configuration.KEYBOARD_12KEY);
-        edtNhapTienChi.addTextChangedListener(new MoneyText(edtNhapTienChi));
+        edtNhapTienChi.addTextChangedListener(new DinhDangNhapTienTe(edtNhapTienChi));
         btnLuuChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -235,7 +232,7 @@ public class SpendMoneyFragment extends Fragment {
         /*String[] arrSoTien=soTien.split("[.]");// VD nhập $50,000.00 chuỗi trả về tiền = $50,000
         String tien=arrSoTien[0].replace("$","").replace(",", ""); // xong*/
         money=Integer.parseInt(moneyFomat);
-        int moneyInDatabase=Integer.parseInt(getDataTaiKhoan.getMoney(getContext(), idLoaiTaiKhoan, maND));
+        int moneyInDatabase=Integer.parseInt(duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), idLoaiTaiKhoan, maND));
 
         /*Toast.makeText(getContext(),
                 "money in edittext: " + money + "\nmoney in database: " + moneyInDatabase,
@@ -264,8 +261,8 @@ public class SpendMoneyFragment extends Fragment {
             Toast.makeText(getContext(), "Chưa chọn mục cần chi", Toast.LENGTH_SHORT).show();
             return;
         }
-        String dateAfterChange = formatDateTime.FormatDateInsert(getContext(),txtNgayChi);
-        if(getDataMucChi.insertChi(
+        String dateAfterChange = dinhDangNgay.DinhDangNgay(getContext(),txtNgayChi);
+        if(duLieuMucChi.ThemChi(
                 getContext(), idMucChi, idTaiKhoan, maND,
                 dateAfterChange, money,
                 edtGhiChuChi.getText().toString())==-1){
@@ -276,7 +273,7 @@ public class SpendMoneyFragment extends Fragment {
             // sau khi thêm thì trừ ra => update lại
             int moneyAfterInsert= moneyInDatabase-money;
 
-            if(getDataTaiKhoan.UpdateAccount(getContext(), idLoaiTaiKhoan, maND, moneyAfterInsert+"")==2){
+            if(duLieuTaiKhoan.CapNhatTaiKhoan(getContext(), idLoaiTaiKhoan, maND, moneyAfterInsert+"")==2){
                 // update thành công
                 //Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
                 LoadTaiKhoan();
@@ -286,10 +283,10 @@ public class SpendMoneyFragment extends Fragment {
 
     private void LoadTaiKhoan()
     {
-        String getTienMat = getDataTaiKhoan.getMoney(getContext(), 1, maND);
-        String getATM = getDataTaiKhoan.getMoney(getContext(), 2, maND);
-        getTienMat = fmoney.FormatTextView(getContext(),getTienMat);
-        getATM = fmoney.FormatTextView(getContext(),getATM);
+        String getTienMat = duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), 1, maND);
+        String getATM = duLieuTaiKhoan.LayDuLieuTaiKhoan(getContext(), 2, maND);
+        getTienMat = dinhDangTienTe.DinhDangTextView(getContext(),getTienMat);
+        getATM = dinhDangTienTe.DinhDangTextView(getContext(),getATM);
 
         txtTienMat.setText(getTienMat);
         txtATM.setText(getATM);

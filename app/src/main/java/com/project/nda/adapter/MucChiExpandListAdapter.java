@@ -1,4 +1,4 @@
-package com.project.nda.adapter;
+package com.project.nda.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.project.nda.model.LoaiChi;
-import com.project.nda.model.MucChi;
+import com.project.nda.Model.LoaiChi;
+import com.project.nda.Model.MucChi;
 import com.project.nda.thuchicanhan.R;
 
 import java.util.HashMap;
@@ -21,24 +21,24 @@ import java.util.List;
 public class MucChiExpandListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<LoaiChi> _listDataHeader;
-    private HashMap<LoaiChi, List<MucChi>> _listDataChild;
+    private List<LoaiChi> dsDuLieuCha;
+    private HashMap<LoaiChi, List<MucChi>> dsDuLieuCon;
 
-    public MucChiExpandListAdapter(Context context, List<LoaiChi> listDataHeader,
-                                   HashMap<LoaiChi, List<MucChi>> listChildData) {
+    public MucChiExpandListAdapter(Context context, List<LoaiChi> dsDuLieuCha,
+                                   HashMap<LoaiChi, List<MucChi>> dsDuLieuCon) {
         this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        this.dsDuLieuCha = dsDuLieuCha;
+        this.dsDuLieuCon = dsDuLieuCon;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.dsDuLieuCha.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.dsDuLieuCha.size();
     }
 
     @Override
@@ -56,17 +56,17 @@ public class MucChiExpandListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.expandlistview_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(loaiChi.getTenLoaiChi());
+        TextView lbldsCha = (TextView) convertView
+                .findViewById(R.id.lbdsCha);
+        lbldsCha.setTypeface(null, Typeface.BOLD);
+        lbldsCha.setText(loaiChi.getTenLoaiChi());
 
         return convertView;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
+            return this.dsDuLieuCon.get(this.dsDuLieuCha.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MucChiExpandListAdapter extends BaseExpandableListAdapter {
     }
     @Override
     public int getChildrenCount(int groupPosition) {
-        return _listDataChild.get(this._listDataHeader.get(groupPosition)).size();
+        return dsDuLieuCon.get(this.dsDuLieuCha.get(groupPosition)).size();
 
     }
     @Override
@@ -83,7 +83,7 @@ public class MucChiExpandListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         MucChi mucChi = (MucChi) getChild(groupPosition, childPosition);
-        final String childText =mucChi.getMucChi();
+        final String conText =mucChi.getMucChi();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -91,10 +91,10 @@ public class MucChiExpandListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.expandlistview_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+        TextView txtdsCon = (TextView) convertView
+                .findViewById(R.id.lbldsCon);
 
-        txtListChild.setText(childText);
+        txtdsCon.setText(conText);
         return convertView;
     }
 
